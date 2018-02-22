@@ -8,8 +8,28 @@
 
 
 {% block body_block %}
-      <div>
-          This will be the home page
+  <div id="content">
 
+      <img src="{% static "img/cover.jpg" %}" alt="Rankify" width="1000" id="cover"/>
+
+      <nav>
+          <a href="/login/">Login</a>
+          <!-- <a href="/about/">About</a> -->
+      </nav>
+
+      <div class ="intro-text">
+          Two lines to explain what the app is.
       </div>
+
+      <a href="/add/" class="big-add">Add a Playlist</a>
+      <div class="button-row">
+        <a href="/rankings/" class="rounded-button">Rankings</a>
+      </div>
+
+      <footer>
+          Made for the Internet Technology class at <a href="https://www.gla.ac.uk" target="_blank">The University of Glasgow</a><br />
+          By Conor Mckeown, Paul McHard, Lewis Renfrew, and Nicholas Ferrera
+      </footer>
+
+  </div>
 {% endblock %}
