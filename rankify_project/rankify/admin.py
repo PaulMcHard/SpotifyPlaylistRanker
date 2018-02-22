@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from rankify.models import Playlist, Song, User
+
+admin.site.register(Playlist)
+admin.site.register(Song)
+admin.site.register(User)

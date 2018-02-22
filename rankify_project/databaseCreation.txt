@@ -1,0 +1,26 @@
+BEGIN;
+--
+-- Create model Playlist
+--
+CREATE TABLE "rankify_playlist" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "spotifyPlaylistURI" varchar(128) NOT NULL UNIQUE, "name" varchar(128) NOT NULL UNIQUE, "avgDanceability" real NULL);
+--
+-- Create model Song
+--
+CREATE TABLE "rankify_song" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "spotifySongURI" varchar(128) NOT NULL UNIQUE, "songName" varchar(128) NOT NULL UNIQUE, "danceability" real NOT NULL);
+CREATE TABLE "rankify_song_playlists" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "song_id" integer NOT NULL REFERENCES "rankify_song" ("id") DEFERRABLE INITIALLY DEFERRED, "playlist_id" integer NOT NULL REFERENCES "rankify_playlist" ("id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model User
+--
+CREATE TABLE "rankify_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "spotifyUserURI" varchar(128) NOT NULL UNIQUE, "picture" varchar(100) NOT NULL, "user_id" integer NOT NULL UNIQUE REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Add field creator to playlist
+--
+ALTER TABLE "rankify_playlist" RENAME TO "rankify_playlist__old";
+CREATE TABLE "rankify_playlist" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "spotifyPlaylistURI" varchar(128) NOT NULL UNIQUE, "name" varchar(128) NOT NULL UNIQUE, "avgDanceability" real NULL, "creator_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED);
+INSERT INTO "rankify_playlist" ("id", "spotifyPlaylistURI", "name", "avgDanceability", "creator_id") SELECT "id", "spotifyPlaylistURI", "name", "avgDanceability", NULL FROM "rankify_playlist__old";
+DROP TABLE "rankify_playlist__old";
+CREATE UNIQUE INDEX rankify_song_playlists_song_id_playlist_id_96dc5d59_uniq ON "rankify_song_playlists" ("song_id", "playlist_id");
+CREATE INDEX "rankify_song_playlists_song_id_67514340" ON "rankify_song_playlists" ("song_id");
+CREATE INDEX "rankify_song_playlists_playlist_id_1735b6c3" ON "rankify_song_playlists" ("playlist_id");
+CREATE INDEX "rankify_playlist_creator_id_5bcf6137" ON "rankify_playlist" ("creator_id");
+COMMIT;

@@ -12,3 +12,6 @@ Django: 2.0
 
 And makes extensive use of the Spotipy library for Python. Installation tips and other resources can be found here:
 https://github.com/plamere/spotipy
+
+N.B. We also make use of the Python Imaging Library (pillow), so install that
+before you try and run.
