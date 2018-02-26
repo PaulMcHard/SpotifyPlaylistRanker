@@ -1,0 +1,123 @@
+   <!DOCTYPE html> 
+   <!-- The previous line tells the browser, that the page uses the HTML5 standard. --> 
+    
+   <html>
+       <head>
+           <title>Basic Spinning Cube Animation</title> 
+           <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"> 
+    
+           <!-- The following meta line optimizes the site for mobile devices. It sets the viewport size 
+          to the screen size, so it will be displayed maximized, but unscaled. --> 
+          <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> 
+          <style type="text/css"> 
+              body { 
+                  /* Set the background color of the HTML page to black */ 
+                  background-color: #000000; 
+   
+                  /* Hide oversized content. This prevents the scroll bars. */ 
+                  overflow: hidden; 
+              } 
+          </style> 
+          <!-- Include Three.js libraries --> 
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/90/three.min.js"></script> 
+         
+      </head> 
+     <body>
+		<input id="field" type="number" name="fname" step="0">
+		<button onclick="speed()">Speed</button>
+          <!-- This is the DIV element which will contain the WebGL canvas. To be identifiable lateron, 
+          the id 'WebGLCanvas' is applied to it. --> 
+          <div id="WebGLCanvas"> 
+   
+          <!-- This JavaScript block encloses the Three.js commands --> 
+          <script> 
+              var scene; 
+			  var camera; 
+			  var renderer;
+				var geometry; 
+				var material; 
+				var mesh;
+				var light;
+				var pLight;
+				var velX = 0.001;
+				var velY = 0.001;
+				var i = 0;
+				var firstTime = 0;
+				
+			init();
+			
+			
+			function init() {
+
+			scene = new THREE.Scene();
+
+			camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+			camera.position.z = 1000;
+			
+			light = new THREE.AmbientLight (  0xffffff );
+			pLight = new THREE.PointLight ( 0xffffff, 1, 1000 );
+			pLight.position.set (25, 400, 25);
+			
+			renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			
+			geometry = new THREE.BoxGeometry( 500, 500, 500 );
+			material = new THREE.MeshPhongMaterial( { color: 0x1db954, wireframe: false } );
+			mesh = new THREE.Mesh( geometry, material );
+			mesh.scale.y = 0.01;
+			mesh.scale.x = 0.01;
+			mesh.scale.z = 0.01;
+			scene.add( light, pLight );
+			scene.add( mesh );
+
+			document.body.appendChild( renderer.domElement );
+
+}
+
+function animate() {
+	var b = document.getElementById('field').value;
+	
+	requestAnimationFrame( animate );
+    
+	mesh.rotation.x += velX;
+    mesh.rotation.y += velY;
+	
+	if (i < 100) {
+	mesh.scale.z += (b/1000);
+	mesh.scale.y += (b/1000);
+	mesh.scale.x += (b/1000);
+	console.log(mesh.scale.x, mesh.scale.y);
+	i ++;
+	} else if (i < 400) {
+	mesh.scale.z -= (b/1000);
+	mesh.scale.y -= (b/1000);
+	mesh.scale.x -= (b/1000);
+	}
+	if (mesh.scale.y < 0.01){
+		i = 0;
+	} 
+	
+	renderer.render( scene, camera );
+
+}
+
+
+function speed() {
+	
+	if (firstTime == 0) {
+	animate();
+	var b = document.getElementById('field').value;
+	velX = (b/100);
+	velY = (b/100);
+	firstTime ++;
+	alert('first time!')}
+	else {
+	var b = document.getElementById('field').value;
+	velX = (b/100);
+	velY = (b/100);
+	}
+}
+
+         </script> 
+     </body> 
+ </html>
