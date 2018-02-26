@@ -1,7 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from Naked.toolshed.shell import execute_js, muterun_js
+import sys
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 
-
+def login(request):
+    #muterun_js('templates/authorization_code/app.js')
+    return render(request, 'authorization_code/public/index.html')
 
 
 def index(request):
