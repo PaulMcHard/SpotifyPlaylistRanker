@@ -14,7 +14,7 @@ from django.contrib.auth.models import User
 
 
 
-class User(models.Model):
+class UserProfile(models.Model):
 
     # This line is required. Links UserProfile to a User model instance.
     # note that we don't need explciit username field since its stored in user
@@ -72,7 +72,7 @@ class Playlist(models.Model):
     # we set up a one to many relationship between users and Playlists
     # i.e. one user has many Playlists
     # the cascade option means playlists go bye bye if user is deleted
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     # we set up a many to many relationship between playlists and songs
     songs = models.ManyToManyField(Song)
