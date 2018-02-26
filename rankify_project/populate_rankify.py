@@ -32,8 +32,7 @@ def populate():
             user.save()
 
 
-            # if you run the population script more than once, this line will
-            # throw an exception since this user already exists
+
 
 
 
@@ -77,12 +76,15 @@ def populate():
 
         # songs we will add to this playlist, the next ten in the list of 100 songs
         mySongs = []
+        totalDanceability = 0;
         for i in range (uptoSong, uptoSong + 10): #0 to ten, ten to twent etc..
             mySongs.append(songs[i])
+            totalDanceability = totalDanceability + songs[i].danceability
+
 
         playlist = Playlist.objects.get_or_create(creator = userProfile,
         name = 'playlist%d' % count, spotifyPlaylistURI = 'spotify/playlist%d' % count,
-        avgDanceability = 1 / count)[0]
+        avgDanceability = totalDanceability/10)[0]
 
         for song in mySongs:
             playlist.songs.add(song)
