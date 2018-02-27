@@ -13,17 +13,21 @@
       <img src="{% static "img/cover.jpg" %}" alt="Rankify" width="1000" id="cover"/>
 
       <nav>
-          <a href="/login/">Login</a>
+        {% if loggedIn %}
+          <a>Logged in as {{ username }}</a>
+        {% else %}
+          <a href="/rankify/login/">Login</a>
           <!-- <a href="/about/">About</a> -->
+        {% endif %}
       </nav>
 
       <div class ="intro-text">
           Two lines to explain what the app is.
       </div>
 
-      <a href="/add/" class="big-add">Add a Playlist</a>
+      <a href="rankify/add/" class="big-add">Add a Playlist</a>
       <div class="button-row">
-        <a href="/rankings/" class="rounded-button">Rankings</a>
+        <a href="/rankify/rankings/" class="rounded-button">Rankings</a>
       </div>
 
       <footer>
