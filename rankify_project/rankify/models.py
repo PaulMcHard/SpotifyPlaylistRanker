@@ -27,7 +27,7 @@ class UserProfile(models.Model):
 
     #spotify assigns all users a uri. We'll tie this to a users account if
     #they upload a spotify playlist, defaults to none before that point
-    spotifyUserURI = models.CharField(max_length=128, unique=True, default=None)
+    spotifyUserURI = models.CharField(max_length=128, unique=True, default=None, null = True)
 
     # profile picture, will be chosen by the user when they sign up
     # profile images will live in media/profile_images
@@ -51,7 +51,7 @@ class UserProfile(models.Model):
 class Song(models.Model):
     #spotify assings all songs a uri, they are findable by this
     spotifySongURI = models.CharField(max_length=128, unique=True)
-    songName = models.CharField(max_length=128, unique=True)
+    songName = models.CharField(max_length=128, unique=False)
     danceability = models.FloatField()
 
 
@@ -65,8 +65,8 @@ class Song(models.Model):
 class Playlist(models.Model):
     #spotify assings all polaylists a uri, they are findable by this
     spotifyPlaylistURI = models.CharField(max_length=128, unique=True,)
-    name = models.CharField(max_length=128, unique=True,  null = False)
-    avgDanceability = models.FloatField(null = True) # TODO Lewis null?
+    name = models.CharField(max_length=128, unique=False,  null = False)
+    avgDanceability = models.FloatField(default = 0)
 
 
     # we set up a one to many relationship between users and Playlists

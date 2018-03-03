@@ -1,6 +1,7 @@
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'rankify_project.settings')
+
 import django
 import random
 django.setup()
@@ -19,12 +20,10 @@ def populate():
 
     # create 10 fake django user profiles, if theyre not there already
     for i in range(1, 10):
-
-
             user = User.objects.get_or_create(
                         username='user%d' % i,
                         email='user%d@mydomain.com' % i,
-                        password='hashedPasswordStringPastedHereFromStep1!',
+                        password='hashedPasswordStringPastedHere!',
                         is_active=True,
                         )[0]
 
@@ -32,17 +31,13 @@ def populate():
             user.save()
 
 
-
-
-
-
-
     # now create 10 rankify specific UserProfiles, link them to the django user
     rUsers = []
     count = 1;
 
     for aUser in users:
-        rUser = UserProfile.objects.get_or_create(user = aUser, spotifyUserURI = 'spotify/user%d' % count,)[0]
+        rUser = UserProfile.objects.get_or_create(
+        user = aUser, spotifyUserURI = 'spotify/user%d' % count,)[0]
         rUser.save()
         rUsers.append(rUser)
         count = count + 1
@@ -72,11 +67,14 @@ def populate():
     # create some fake playlists, one per users, add some songs, fudge the avgDanceability
     count = 1;
     uptoSong = 0
-    for userProfile in rUsers:
 
+
+
+    for userProfile in rUsers:
         # songs we will add to this playlist, the next ten in the list of 100 songs
         mySongs = []
         totalDanceability = 0;
+
         for i in range (uptoSong, uptoSong + 10): #0 to ten, ten to twent etc..
             mySongs.append(songs[i])
             totalDanceability = totalDanceability + songs[i].danceability
@@ -89,9 +87,10 @@ def populate():
         for song in mySongs:
             playlist.songs.add(song)
 
-        uptoSong = uptoSong + 10
+
 
         playlist.save()
+        uptoSong = uptoSong + 10
         count = count + 1
 
 
