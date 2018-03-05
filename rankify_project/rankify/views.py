@@ -1,5 +1,5 @@
 
-
+from django import forms
 from rankify.forms import PlaylistForm
 import sys
 import json
@@ -14,7 +14,7 @@ from spotipy import oauth2
 from spotipy.oauth2 import SpotifyClientCredentials
 from flask import Flask, request, redirect, g, render_template
 
-
+from rankify.spotify_utils import get_playlist_names, get_tracks, get_playlists_by_username
 
 from rankify.forms import UserForm, UserProfileForm
 from rankify.models import UserProfile
@@ -24,7 +24,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.urls import reverse
 
-
+# loads of variables to allow the user to authorise this app with their spotify
 #  Client Keys
 CLIENT_ID = "2af2fa2dd9c147f886a7b67c3d4ca031"
 CLIENT_SECRET = "562e93edd67b40cca215c3c882dc41a2"
@@ -41,33 +41,25 @@ auth_query_parameters = {
     "response_type": "code",
     "redirect_uri": REDIRECT_URI,
     "scope": SCOPE,
-    "client_id": CLIENT_ID
+    "client_id": CLIENT_ID,
+    "show_dialog": 'true'
 }
 auth = oauth2.SpotifyOAuth(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, scope = SCOPE )
+sp = None
+token = None
 
 
 def user_login(request):
-# If the request is a HTTP POST, try to pull out the relevant information.
+    # djangos machinery handles this, pretty much a straight life from TWD book
     if request.method == 'POST':
-        # Gather the username and password provided by the user.
-        # This information is obtained from the login form.
-        # We use request.POST.get('<variable>') as opposed
-        # to request.POST['<variable>'], because the
-        # request.POST.get('<variable>') returns None if the
-        # value does not exist, while request.POST['<variable>'] # will raise a KeyError exception.
         username = request.POST.get('username')
         password = request.POST.get('password')
-        # Use Django's machinery to attempt to see if the username/password
-        # combination is valid - a User object is returned if it is.
+
         user = authenticate(username=username, password=password)
-        # If we have a User object, the details are correct.
-        # If None (Python's way of representing the absence of a value), no user
-        # with matching credentials was found.
-        if user:
-            # Is the account active? It could have been disabled.
-            if user.is_active:
-                # If the account is valid and active, we can log the user in.
-                # We'll send the user back to the homepage.
+        if user: #if we got a user
+
+            if user.is_active:#and they are active
+                #django login
                 login(request, user)
                 return HttpResponseRedirect(reverse('index'))
             else:
@@ -77,11 +69,10 @@ def user_login(request):
             # Bad login details were provided. So we can't log the user in.
             print("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
-            # The request is not a HTTP POST, so display the login form.
-            # This scenario would most likely be a HTTP GET.
-    else:
-        # No context variables to pass to the template system, hence the
-        # blank dictionary object...
+
+
+    else:     # This scenario would most likely be a HTTP GET.
+        # blank dictionary object... nothing to pass back
         return render(request, 'rankify/login.html', {})
 
 @login_required
@@ -97,38 +88,47 @@ def link_spotify(request):
     url_args = "&".join(["{}={}".format(key,urlquote(val)) for key,val in auth_query_parameters.items()])
     auth_url = "{}/?{}".format(SPOTIFY_AUTH_URL, url_args)
     #return HttpResponse(auth_url)
-    return HttpResponseRedirect(auth_url)
+    return HttpResponseRedirect(auth_url,)
 
-
+# step 2, call back, if this function executes succesfully then a spotify account
+# (username and uri) will be linked to the active django users UserProfile object
 def callback(request):
+
     token_code = request.GET.get('code')
-    token = auth.get_access_token(token_code)
-    sp = spotipy.Spotify(auth=token['access_token'])
-    user = sp.me()
-    username = user['display_name']
-    uri = user['uri']
-    print(uri)
-    playlists = sp.user_playlists(user['id'])
-    loggedIn = True
+    if(token_code): #if we got a code
+        token = auth.get_access_token(token_code) #get a token
+        sp = spotipy.Spotify(auth=token['access_token']) #can use spotipy now
+        user = sp.me() # get the user
+        username = user['id'] #thier spotify username
+        uri = user['uri'] #their spotify uri
+        playlists = sp.user_playlists(user['id']) #a list of their playlists
 
-    current_user = request.user
-    username = current_user.username
-
-
-    user_profiles = UserProfile.objects.filter(user = request.user)
-    for u in user_profiles:
+        u = UserProfile.objects.get(user = request.user)  #get the current UserProgile
+        u.spotify_user_uri = user['uri']  # assign it this spotify uri
+        u.spotify_username = username # assign it this spotify username
 
 
-        u.spotifyUserURI = user['uri']  # change field
-        u.save()
 
+        u.save() # save the changes to the active users UserProfile
+        if (u.spotify_user_uri): #if they active user has a linked spotify account
+            spotify_linked = True # set this true so we can pass it to the template
+        return render(request, 'rankify/home.html', {'spotify_linked': spotify_linked,})
 
-    return render(request, 'rankify/home.html', {'loggedIn': loggedIn, 'username': username})
-    #return HttpResponseRedirect(reverse('index'), )
+    else: # if we dont have a code this time
+        # return to the home page,
+        return HttpResponseRedirect(reverse('index'), )
+
 
 
 def index(request):
-    return render(request, 'rankify/home.html')
+    spotify_linked = False #track whether the user has a linked spotify account
+
+    if request.user.is_authenticated: # if active user
+        u = UserProfile.objects.get(user = request.user) #get associated UserProfile
+        if (u.spotify_user_uri): # if they have a spotify uri associated with UserProfile
+            spotify_linked = True #they must have linked their spotify
+    # pass spotify_linked (T or F) to the template long with the request
+    return render(request, 'rankify/home.html' , {'spotify_linked': spotify_linked,} )
 
 
 def rankings(request):
@@ -192,17 +192,66 @@ def register(request):
                    'profile_form': profile_form,
                    'registered': registered})
 
-
+# this is the business function here, adding and processing a playlist to the db
+# TODO - this runs slow! can we speed it up somehow?
 def add_playlist(request):
-    form = PlaylistForm(request.POST)
+    current_user = UserProfile.objects.get(user=request.user) # get the current users UserProfile
+    spotify_username = current_user.spotify_username #get their spotify username
 
-    if form.is_valid():
-        playlist = form.save(commit=True)
+    PLAYLISTS = get_playlist_names(spotify_username) #grab their playlists
 
-        playlist.save()
-        return index(request)
-    else:
-        print(form.errors)
-        print('INVALID')
+    # TODO - restric this list so its only playlists a user hasnt added yet
+    CHOICES= [] # create a list of playlist names to pass to the form
+    for playlist in PLAYLISTS:
+        CHOICES.append((playlist, playlist))
+
+    # create the form, default 'creator' to be the current UserProfile
+    form = PlaylistForm(request.POST or None, initial={'creator': current_user,  })
+    form.fields['creator'].widget = forms.HiddenInput() #hide this so it cant change
+
+    # set the Playlist 'name' form field to be a dropdown of the above choices
+    form.fields['name'] = forms.CharField(max_length=128, label='Select Your Playlist',
+    widget=forms.Select(choices=CHOICES))
+
+    if request.method == 'POST': #if we're posting
+        if form.is_valid(): #check valid
+            added_playlist = form.save(commit=True) #make a new playlist from the form
+
+
+            # get playlists by username
+            user_profile = UserProfile.objects.get(user =request.user)
+            username = user_profile.spotify_username
+            playlists = get_playlists_by_username(username)
+
+            #search this users playlists till we find which one was selected
+            for playlist in playlists['items']:
+                if playlist['name'] == added_playlist.name:
+
+
+                    total_danceability = 0
+                    track_counter = 0
+
+                    #the get_tracks function does a lot...
+                    #it gets tracks from the playlist and adds them to the db as Songs
+                    # and returns a list of songs
+                    songs = get_tracks(playlist, username)
+
+                    #add every song in the list to the playlist entry in the db
+                    for song in songs:
+                        added_playlist.songs.add(song)
+                        total_danceability += song.danceability
+                        track_counter += 1
+
+                    # add the playlists uri to the db
+                    added_playlist.spotify_playlist_uri = playlist['uri']
+                    #add the playlists danceability!
+                    added_playlist.avg_danceability = total_danceability / track_counter
+
+                    added_playlist.save() #and save the playlist
+            return HttpResponseRedirect(reverse('index'))
+
+        else:
+            print(form.errors)
+            print('INVALID')
 
     return render(request, 'rankify/add_playlist.html', {'form': form})

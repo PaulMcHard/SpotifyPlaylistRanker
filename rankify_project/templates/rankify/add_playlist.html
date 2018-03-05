@@ -1,8 +1,9 @@
 {% extends 'rankify/base.html' %}
 {% load staticfiles %}
 {% block body_block %}
-<h1>Add a Category</h1> <div>
-<form id="category_form" method="post" action="/rankify/add_playlist/"> {% csrf_token %}
+<h1>Choose a Playlist</h1> <div>
+<form id="category_form" method="post" action="/rankify/add_playlist/">
+    {% csrf_token %}
 {% for hidden in form.hidden_fields %}
                     {{ hidden }}
                 {% endfor %}
@@ -10,5 +11,9 @@
                     {{ field.errors }}
                     {{ field.help_text }}
                     {{ field }}
+
 {% endfor %}
+<input type="submit" name="submit" value="Upload" />
+
+</form>
 {% endblock %}

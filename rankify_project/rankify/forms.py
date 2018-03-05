@@ -8,30 +8,33 @@ from django.contrib import admin
 
 class PlaylistForm(forms.ModelForm):
 
-    creator = forms.ModelChoiceField(queryset=UserProfile.objects.all())
 
-    PLAYLISTS = get_playlist_names('alicejanehughes')
+    def __init__(self, *args, **kwargs):
+        global username
+        current_user = kwargs.pop('current_user', None)
+
+        super(PlaylistForm, self).__init__(*args, **kwargs)
 
 
 
-    CHOICES= []
-    counter = 0
-    for playlist in PLAYLISTS:
-        CHOICES.append((counter, playlist))
+    #creator = forms.ModelChoiceField(widget=forms.HiddenInput(), initial = current_user)
 
-    creator = forms.ModelChoiceField(queryset=UserProfile.objects.all())
-    #name = forms.CharField(max_length=128, label='Select Your Playlist',
-    #widget=forms.Select(choices=CHOICES))
+    
+
+
+
+
+    avg_danceability = forms.IntegerField(widget=forms.HiddenInput(), initial = 0)
 
     #creator can't be null, so need this line
     #creator = forms.ModelMultipleChoiceField('lewisrenfrew')
 
-    #spotifyPlaylistURI = forms.CharField(widget=forms.HiddenInput(), initial = " ")
+    #spotifyPlaylistURI = forms.CharField(widget=forms.HiddenInput(), widget=forms.HiddenInput(),)
 
 
     class Meta:
         model = Playlist
-        fields = ('spotifyPlaylistURI', 'name', 'avgDanceability', 'songs', 'creator')
+        fields = ('name', 'avg_danceability', 'creator')
 
 
 class UserForm(forms.ModelForm):

@@ -32,14 +32,17 @@ def populate():
 
 
     # now create 10 rankify specific UserProfiles, link them to the django user
-    rUsers = []
+    r_users = []
     count = 1;
 
-    for aUser in users:
-        rUser = UserProfile.objects.get_or_create(
-        user = aUser, spotifyUserURI = 'spotify/user%d' % count,)[0]
-        rUser.save()
-        rUsers.append(rUser)
+    for test_user in users:
+        r_user = UserProfile.objects.get_or_create(
+        user = test_user,
+        spotify_username = 'spotifyusername%d' % count,
+        spotify_user_uri = 'spotify/user%d' % count,)[0]
+
+        r_user.save()
+        r_users.append(r_user)
         count = count + 1
 
 
@@ -50,8 +53,8 @@ def populate():
 
     for i in range(1, 100):
         song = Song.objects.get_or_create(
-        songName = 'song%d' % count,
-        spotifySongURI = 'spotify/song%d' % count,
+        song_name = 'song%d' % count,
+        spotify_song_uri = 'spotify/song%d' % count,
         danceability = random.uniform(0, 1),
         )[0]
         songs.append(song)
@@ -66,31 +69,31 @@ def populate():
 
     # create some fake playlists, one per users, add some songs, fudge the avgDanceability
     count = 1;
-    uptoSong = 0
+    up_to_song = 0
 
 
 
-    for userProfile in rUsers:
+    for user_profile in r_users:
         # songs we will add to this playlist, the next ten in the list of 100 songs
-        mySongs = []
-        totalDanceability = 0;
+        my_songs = []
+        total_danceability = 0;
 
-        for i in range (uptoSong, uptoSong + 10): #0 to ten, ten to twent etc..
-            mySongs.append(songs[i])
-            totalDanceability = totalDanceability + songs[i].danceability
+        for i in range (up_to_song, up_to_song + 10): #0 to ten, ten to twent etc..
+            my_songs.append(songs[i])
+            total_danceability = total_danceability + songs[i].danceability
 
 
-        playlist = Playlist.objects.get_or_create(creator = userProfile,
-        name = 'playlist%d' % count, spotifyPlaylistURI = 'spotify/playlist%d' % count,
-        avgDanceability = totalDanceability/10)[0]
+        playlist = Playlist.objects.get_or_create(creator = user_profile,
+        name = 'playlist%d' % count, spotify_playlist_uri = 'spotify/playlist%d' % count,
+        avg_danceability = total_danceability/10)[0]
 
-        for song in mySongs:
+        for song in my_songs:
             playlist.songs.add(song)
 
 
 
         playlist.save()
-        uptoSong = uptoSong + 10
+        up_to_song = up_to_song + 10
         count = count + 1
 
 
