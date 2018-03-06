@@ -13,14 +13,9 @@
       <img src="{% static "img/cover.jpg" %}" alt="Rankify" width="1000" id="cover"/>
 
       <nav>
-<<<<<<< HEAD
-        {% if loggedIn %}
-          <a>Logged in as {{ username }}</a>
-=======
         {% if user.is_authenticated %}
           <a>Logged in as {{ user.username }} </a>
            <a href="/rankify/logout/">Log Out</a>
->>>>>>> lewis
         {% else %}
           <a href="/rankify/login/">Login</a>
           <!-- <a href="/about/">About</a> -->
@@ -30,12 +25,6 @@
       <div class ="intro-text">
          Can you create the worlds most danceable playlist?
       </div>
-<<<<<<< HEAD
-
-      <a href="rankify/add/" class="big-add">Add a Playlist</a>
-      <div class="button-row">
-        <a href="/rankify/rankings/" class="rounded-button">Rankings</a>
-=======
       {% if user.is_authenticated %}
         <!-- if the user is logged in they have some options: -->
         {% if spotify_linked %}
@@ -57,7 +46,6 @@
         <!--if the user is logged in they can view their profile (playlists)-->
         <a href="/rankify/user/" class="rounded-button">Your Playlists</a>
         {% endif %}
->>>>>>> lewis
       </div>
 
       <footer>

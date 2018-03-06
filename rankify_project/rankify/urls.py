@@ -9,13 +9,8 @@ urlpatterns = [
     url(r'^callback/$', views.callback, name='callback'),
     # just a placeholder for now, will change to specific user
     url(r'^user/$', views.user, name='user'),
-<<<<<<< HEAD
-    url(r'^login/$', views.login, name='login'),
-    url(r'^callback/$', views.callback, name='callback'),
-=======
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
 
     url(r'^register/$', views.register, name='register'),
->>>>>>> lewis
 ]

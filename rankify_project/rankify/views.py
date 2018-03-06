@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import sys
 import json
 import requests
@@ -12,42 +11,11 @@ from spotipy import oauth2
 from spotipy.oauth2 import SpotifyClientCredentials
 from flask import Flask, request, redirect, g, render_template
 
-=======
-
-from django import forms
-from rankify.forms import PlaylistForm
-import sys
-import json
-import requests
-import base64
-import urllib
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from django.utils.http import urlquote
-import spotipy
-from spotipy import oauth2
-from spotipy.oauth2 import SpotifyClientCredentials
-from flask import Flask, request, redirect, g, render_template
-
-from rankify.spotify_utils import get_playlist_names, get_tracks, get_playlists_by_username
-
-from rankify.forms import UserForm, UserProfileForm
-from rankify.models import UserProfile, Playlist
-
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-
-from django.urls import reverse
-
-# loads of variables to allow the user to authorise this app with their spotify
->>>>>>> lewis
 #  Client Keys
 CLIENT_ID = "2af2fa2dd9c147f886a7b67c3d4ca031"
 CLIENT_SECRET = "562e93edd67b40cca215c3c882dc41a2"
 # Spotify URL
 SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize"
-<<<<<<< HEAD
-=======
 
 # Server-side Parameters
 CLIENT_SIDE_URL = "http://127.0.0.1"
@@ -135,7 +103,6 @@ def callback(request):
     else: # if we dont have a code this time
         # return to the home page,
         return HttpResponseRedirect(reverse('index'), )
->>>>>>> lewis
 
 # Server-side Parameters
 CLIENT_SIDE_URL = "http://127.0.0.1"
