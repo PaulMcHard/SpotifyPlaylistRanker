@@ -61,18 +61,18 @@ def get_tracks(playlist, username):
                 track = item['track']
                 features = sp.audio_features(track['id'])
                 name = track['name']
-                #print("the track is called ", name)
+                print("the track is called ", name)
                 uri = track['uri']
-                #print("the track is at ", uri)
+                print("the track is at ", uri)
 
                 #features is normally a list of features for multiple tracks
                 #but since we are going through the list one by one it'll just have one
                 #elements, i.e. features[0]
                 thisTracksFeatures = features[0]
                 danceability = thisTracksFeatures['danceability']
-                #print("the track has a danceability of", danceability)
+                print("the track has a danceability of", danceability)
 
-           
+
 
                 # create a Song object and add it to the db with the info gathered so far
                 song = Song.objects.get_or_create(

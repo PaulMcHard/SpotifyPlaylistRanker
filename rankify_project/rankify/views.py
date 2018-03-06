@@ -17,7 +17,7 @@ from flask import Flask, request, redirect, g, render_template
 from rankify.spotify_utils import get_playlist_names, get_tracks, get_playlists_by_username
 
 from rankify.forms import UserForm, UserProfileForm
-from rankify.models import UserProfile
+from rankify.models import UserProfile, Playlist
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -198,12 +198,18 @@ def add_playlist(request):
     current_user = UserProfile.objects.get(user=request.user) # get the current users UserProfile
     spotify_username = current_user.spotify_username #get their spotify username
 
-    PLAYLISTS = get_playlist_names(spotify_username) #grab their playlists
 
-    # TODO - restric this list so its only playlists a user hasnt added yet
+    playlists = get_playlists_by_username(spotify_username) #grab their playlists
     CHOICES= [] # create a list of playlist names to pass to the form
-    for playlist in PLAYLISTS:
-        CHOICES.append((playlist, playlist))
+    for s_playlist in playlists['items']:
+        already_added = False
+        for playlist in Playlist.objects.all():
+            if s_playlist['uri'] == playlist.spotify_playlist_uri:
+                already_added = True
+
+
+        if already_added == False:
+            CHOICES.append((s_playlist['name'], s_playlist['name']))
 
     # create the form, default 'creator' to be the current UserProfile
     form = PlaylistForm(request.POST or None, initial={'creator': current_user,  })
