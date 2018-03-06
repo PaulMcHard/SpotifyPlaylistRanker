@@ -24,7 +24,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.urls import reverse
 
-
+# loads of variables to allow the user to authorise this app with their spotify
 #  Client Keys
 CLIENT_ID = "2af2fa2dd9c147f886a7b67c3d4ca031"
 CLIENT_SECRET = "562e93edd67b40cca215c3c882dc41a2"
@@ -118,37 +118,6 @@ def callback(request):
         # return to the home page,
         return HttpResponseRedirect(reverse('index'), )
 
-# Server-side Parameters
-CLIENT_SIDE_URL = "http://127.0.0.1"
-PORT=8000
-REDIRECT_URI = "{}:{}/rankify/callback/".format(CLIENT_SIDE_URL, PORT)
-SCOPE = "playlist-modify-public playlist-read-collaborative playlist-read-private playlist-modify-private"
-
-auth_query_parameters = {
-    "response_type": "code",
-    "redirect_uri": REDIRECT_URI,
-    "scope": SCOPE,
-    "client_id": CLIENT_ID
-}
-auth = oauth2.SpotifyOAuth(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, scope = SCOPE )
-
-def login(request):
-    # Auth Step 1: Authorization
-    url_args = "&".join(["{}={}".format(key,urlquote(val)) for key,val in auth_query_parameters.items()])
-    auth_url = "{}/?{}".format(SPOTIFY_AUTH_URL, url_args)
-    #return HttpResponse(auth_url)
-    return HttpResponseRedirect(auth_url)
-
-
-def callback(request):
-    token_code = request.GET.get('code')
-    token = auth.get_access_token(token_code)
-    sp = spotipy.Spotify(auth=token['access_token'])
-    user = sp.me()
-    username = user['display_name']
-    playlists = sp.user_playlists(user['id'])
-    loggedIn = True
-    return render(request, 'rankify/home.html', {'loggedIn': loggedIn, 'username': username})
 
 
 def index(request):
@@ -229,18 +198,12 @@ def add_playlist(request):
     current_user = UserProfile.objects.get(user=request.user) # get the current users UserProfile
     spotify_username = current_user.spotify_username #get their spotify username
 
+    PLAYLISTS = get_playlist_names(spotify_username) #grab their playlists
 
-    playlists = get_playlists_by_username(spotify_username) #grab their playlists
+    # TODO - restric this list so its only playlists a user hasnt added yet
     CHOICES= [] # create a list of playlist names to pass to the form
-    for s_playlist in playlists['items']:
-        already_added = False
-        for playlist in Playlist.objects.all():
-            if s_playlist['uri'] == playlist.spotify_playlist_uri:
-                already_added = True
-
-
-        if already_added == False:
-            CHOICES.append((s_playlist['name'], s_playlist['name']))
+    for playlist in PLAYLISTS:
+        CHOICES.append((playlist, playlist))
 
     # create the form, default 'creator' to be the current UserProfile
     form = PlaylistForm(request.POST or None, initial={'creator': current_user,  })
