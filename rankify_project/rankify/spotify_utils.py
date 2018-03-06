@@ -72,17 +72,20 @@ def get_tracks(playlist, username):
                 danceability = thisTracksFeatures['danceability']
                 #print("the track has a danceability of", danceability)
 
+           
+
+                # create a Song object and add it to the db with the info gathered so far
+                song = Song.objects.get_or_create(
+                song_name = name,
+                spotify_song_uri = uri,
+                danceability =  danceability,
+                )[0]
+
+
+                song.save() # save it to the db
+                songs.append(song) # add it to the list
+
             except TypeError:
                 print("spotify have removed this track")
-
-            # create a Song object and add it to the db with the info gathered so far
-            song = Song.objects.get_or_create(
-            song_name = name,
-            spotify_song_uri = uri,
-            danceability =  danceability,
-            )[0]
-
-            song.save() # save it to the db
-            songs.append(song) # add it to the list
 
     return songs # return the list of songs

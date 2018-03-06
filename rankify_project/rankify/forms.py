@@ -17,9 +17,8 @@ class PlaylistForm(forms.ModelForm):
 
 
 
-    #creator = forms.ModelChoiceField(widget=forms.HiddenInput(), initial = current_user)
 
-    
+
 
 
 
