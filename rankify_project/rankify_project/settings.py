@@ -9,10 +9,17 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+CLIENT_SIDE_URL = "http://127.0.0.1"
+PORT=8000
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+SOCIAL_AUTH_SPOTIFY_KEY  = "2af2fa2dd9c147f886a7b67c3d4ca031"
+SOCIAL_AUTH_SPOTIFY_SECRET = "562e93edd67b40cca215c3c882dc41a2"
+SOCIAL_AUTH_SPOTIFY_REDIRECT_URL = "{}:{}/rankify/callback/".format(CLIENT_SIDE_URL, PORT)
+#SOCIAL_AUTH_SPOTIFY_SCOPE = "playlist-modify-public playlist-read-collaborative playlist-read-private playlist-modify-private"
 
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR, ]
@@ -20,6 +27,8 @@ STATICFILES_DIRS = [STATIC_DIR, ]
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = 'index'
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
     'rankify',
 ]
 
@@ -54,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'rankify_project.urls'
@@ -70,7 +81,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
-            ],
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect'
+                ]
         },
     },
 ]
@@ -106,6 +119,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.spotify.SpotifyOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/

@@ -27,15 +27,10 @@
       </div>
       {% if user.is_authenticated %}
         <!-- if the user is logged in they have some options: -->
-        {% if spotify_linked %}
+        
         <!-- if the user has linked their spotify, prompt to upload a playlist -->
         <a href="{% url 'add_playlist' %}" class="big-add">Add a Playlist</a>
-        {% else %}
-            <!-- else prompt to link their spotify account -->
-            <a href="/rankify/link_spotify/" class="big-add">Link Your Spotify Account</a>
 
-        <!-- TODO:  <a href="/about/">About</a> -->
-        {% endif %}
      {% else %}
          <!--if the user isn't even logged in, prompt them to do so -->
      <a href="/rankify/login/" class="big-add">Log in to find out! </a>
