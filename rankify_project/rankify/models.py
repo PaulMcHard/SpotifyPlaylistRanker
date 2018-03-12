@@ -56,6 +56,7 @@ class Playlist(models.Model):
     # i.e. one user has many Playlists
     # the cascade option means playlists go bye bye if creators UserProfile is deleted
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator_display_name = models.CharField(max_length=128, default = 'none')
 
     # we set up a many to many relationship between playlists and songs
     songs = models.ManyToManyField(Song)

@@ -79,14 +79,13 @@ def index(request):
 
 
 def rankings(request):
-    playlist_list = Playlist.objects.order_by('-avg_danceability')[:10]
-    creators = []
-    for playlist in playlist_list:
-        creators.append(get_display_name(playlist.creator.username))
+    playlist_list = Playlist.objects.order_by('-avg_danceability')[:50]
 
 
 
-    context_dict = {'playlists': playlist_list, 'display_names': creators}
+
+
+    context_dict = {'playlists': playlist_list, }
     return render(request, 'rankify/rankings.html', context_dict)
 
 def user(request):
@@ -168,6 +167,7 @@ def add_playlist(request):
 
 
                     added_playlist.creator = request.user
+                    added_playlist.creator_display_name = get_display_name(request.user.username)
 
                     added_playlist.save() #and save the playlist
                     playlist_added = True
