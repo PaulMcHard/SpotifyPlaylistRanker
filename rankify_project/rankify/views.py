@@ -80,7 +80,13 @@ def index(request):
 
 def rankings(request):
     playlist_list = Playlist.objects.order_by('-avg_danceability')[:10]
-    context_dict = {'playlists': playlist_list}
+    creators = []
+    for playlist in playlist_list:
+        creators.append(get_display_name(playlist.creator.username))
+
+
+
+    context_dict = {'playlists': playlist_list, 'display_names': creators}
     return render(request, 'rankify/rankings.html', context_dict)
 
 def user(request):
