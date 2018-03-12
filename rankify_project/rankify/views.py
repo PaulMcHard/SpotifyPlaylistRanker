@@ -15,10 +15,11 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from flask import Flask, request, redirect, g, render_template
 from django.contrib.auth import logout as django_logout
 
-from rankify.spotify_utils import get_playlist_names, get_tracks, get_playlists_by_username
+from rankify.spotify_utils import get_playlist_names, get_tracks, get_playlists_by_username, get_display_name, get_profile_picture
 
 from rankify.forms import UserForm
 
+from rankify.models import Playlist
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -68,17 +69,28 @@ def index(request):
 
     # pass a variable to the template to indicate loggined in or not
     logged_in = False
+    display_name = ""
     if request.user.is_authenticated: # if active user
         logged_in = True
+        display_name = get_display_name(request.user.username)
 
-    return render(request, 'rankify/home.html' , {'logged_in': logged_in} )
+
+    return render(request, 'rankify/home.html' , {'logged_in': logged_in, 'display_name': display_name} )
 
 
 def rankings(request):
-    return render(request, 'rankify/rankings.html')
+    playlist_list = Playlist.objects.order_by('-avg_danceability')[:10]
+    context_dict = {'playlists': playlist_list}
+    return render(request, 'rankify/rankings.html', context_dict)
 
 def user(request):
-    return render(request, 'rankify/user.html')
+    #TODO- change this creator to be the user specificed by the url
+    #as it stands this shows the active users playlists no matter what profile we are on
+    playlist_list = Playlist.objects.filter(creator = request.user)
+    users_playlist_list = Playlist.objects.order_by('-avg_danceability')[:5]
+    image = get_profile_picture(request.user.username)
+    context_dict = {'playlists': playlist_list, 'image_url': image}
+    return render(request, 'rankify/user.html', context_dict)
 
 
 
@@ -86,15 +98,25 @@ def user(request):
 # this is the business function here, adding and processing a playlist to the db
 # TODO - this runs slow! can we speed it up somehow?
 def add_playlist(request):
+
     current_user = request.user # get the current users UserProfile
     spotify_username = request.user.username#get their spotify username
 
-    PLAYLISTS = get_playlist_names(spotify_username) #grab their playlists
+    playlists = get_playlists_by_username(spotify_username) #grab their playlists
 
-    # TODO - restric this list so its only playlists a user hasnt added yet
-    CHOICES= [] # create a list of playlist names to pass to the form
-    for playlist in PLAYLISTS:
-        CHOICES.append((playlist, playlist))
+
+    CHOICES = [] # create a list of playlist names to pass to the form
+
+    for playlist in playlists['items']:
+        already_added = False
+
+        for u_playlist in Playlist.objects.all():
+            if playlist['uri'] == u_playlist.spotify_playlist_uri:
+                already_added = True
+
+
+        if already_added == False:
+            CHOICES.append((playlist['name'], playlist['name']))
 
     # create the form, default 'creator' to be the current UserProfile
     form = PlaylistForm(request.POST or None, initial={'creator': current_user,  })
@@ -134,11 +156,16 @@ def add_playlist(request):
                     # add the playlists uri to the db
                     added_playlist.spotify_playlist_uri = playlist['uri']
                     #add the playlists danceability!
-                    added_playlist.avg_danceability = total_danceability / track_counter
+                    avg_danceability = total_danceability / track_counter
+                    added_playlist.avg_danceability = avg_danceability
+                    avg_danceability = round(  avg_danceability, 2 )
+
+
                     added_playlist.creator = request.user
 
                     added_playlist.save() #and save the playlist
-            return HttpResponseRedirect(reverse('index'))
+                    playlist_added = True
+            return render(request, 'rankify/home.html', {'avg_danceability': avg_danceability, 'playlist_added': playlist_added, 'playlist_name': added_playlist.name} )
 
         else:
             print(form.errors)

@@ -8,8 +8,12 @@
 
 
 {% block body_block %}
-      <div>
-          This will be the rankings page
-
-      </div>
+<h1> World Rankings </h1>
+<div style="color:White">
+{% if playlists %} <ul>
+{% for playlist in playlists %} <li>Name: {{ playlist.name }}|      Danceability: {{ playlist.avg_danceability }}|      Creator: {{ playlist.creator.username }}  </li>
+{% endfor %} </ul>
+{% else %}
+<strong>No one has ever Rankfied a playlist! :(</strong>
+{% endif %} </div>
 {% endblock %}

@@ -14,7 +14,7 @@
 
       <nav>
         {% if user.is_authenticated %}
-          <a>Logged in as {{ user.username }} </a>
+          <a>Logged in as {{ display_name }} </a>
            <a href="/rankify/logout/">Log Out</a>
         {% else %}
           <a href="/rankify/login/">Login</a>
@@ -23,11 +23,15 @@
       </nav>
 
       <div class ="intro-text">
+          {% if playlist_added %}
+          {{ playlist_name }} has a danceability of {{ avg_danceability }}
+          {% else %}
          Can you create the worlds most danceable playlist?
+         {% endif %}
       </div>
       {% if user.is_authenticated %}
         <!-- if the user is logged in they have some options: -->
-        
+
         <!-- if the user has linked their spotify, prompt to upload a playlist -->
         <a href="{% url 'add_playlist' %}" class="big-add">Add a Playlist</a>
 
