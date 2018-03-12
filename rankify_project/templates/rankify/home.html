@@ -14,7 +14,7 @@
 
       <nav>
         {% if user.is_authenticated %}
-          <a>Logged in as {{ user.username }} </a>
+          <a>Logged in as {{ user.first_name }} </a>
            <a href="/rankify/logout/">Log Out</a>
         {% else %}
           <a href="/rankify/login/">Login</a>
@@ -27,7 +27,7 @@
       </div>
       {% if user.is_authenticated %}
         <!-- if the user is logged in they have some options: -->
-        
+
         <!-- if the user has linked their spotify, prompt to upload a playlist -->
         <a href="{% url 'add_playlist' %}" class="big-add">Add a Playlist</a>
 
