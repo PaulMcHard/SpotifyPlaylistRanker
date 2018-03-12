@@ -13,6 +13,7 @@
 {% if playlists %} <ul>
 {% for playlist in playlists %} <li>Name: {{ playlist.name }} |      Danceability: {{ playlist.avg_danceability }} | Creator = {{ playlist.creator_display_name }} |     </li>
 {% endfor %} </ul>
+for each playlist you can also access a thumbnail image using playlist.playlist_image_url
 <ul>
 {% else %}
 <strong>No one has ever Rankfied a playlist! :(</strong>

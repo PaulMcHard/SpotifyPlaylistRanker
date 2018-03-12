@@ -79,7 +79,7 @@ def index(request):
 
 
 def rankings(request):
-    playlist_list = Playlist.objects.order_by('-avg_danceability')[:50]
+    playlist_list = Playlist.objects.order_by('-avg_danceability')[:10]
 
 
 
@@ -167,6 +167,8 @@ def add_playlist(request):
 
 
                     added_playlist.creator = request.user
+                    print(playlist['images'][0]['url'])
+                    added_playlist.playlist_image_url = get_profile_picture(request.user.username)
                     added_playlist.creator_display_name = get_display_name(request.user.username)
 
                     added_playlist.save() #and save the playlist
@@ -177,4 +179,23 @@ def add_playlist(request):
             print(form.errors)
             print('INVALID')
 
-    return render(request, 'rankify/add_playlist.html', {'form': form})
+    return render(request, 'rankify/a_playlist.html', {'form': form})
+
+
+
+
+
+
+def show_playlist(request, playlist_slug):
+    context_dict = {}
+
+    #check this playlist exists in the db
+    playlist = Playlist.objects.get(slug=playlist_slug)
+
+    #get its songs
+    songs = playlist.songs.all()
+
+    # stick them in the dictionary
+    context_dict['songs'] = songs
+
+    return render(request, 'rankify/playlist.html', context_dict)

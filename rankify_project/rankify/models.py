@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 
 
@@ -58,8 +59,20 @@ class Playlist(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     creator_display_name = models.CharField(max_length=128, default = 'none')
 
+    playlist_image_url = models.CharField(max_length = 128, default = 'none' )
+
     # we set up a many to many relationship between playlists and songs
     songs = models.ManyToManyField(Song)
+
+    slug = models.SlugField(default = 'none')
+
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Playlist, self).save(*args, **kwargs)
+
+
+
 
 
 

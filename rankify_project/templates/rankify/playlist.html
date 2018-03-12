@@ -1,0 +1,21 @@
+{% extends 'rankify/base.html' %}
+{% load staticfiles %}
+
+
+{% block title_block %}
+  Home
+{% endblock %}
+
+
+{% block body_block %}
+<h1> Songs and Ranks </h1>
+<div style="color:White">
+{% if songs %} <ul>
+{% for song in songs %} <li>Name: {{ song.song_name }} |      Danceability: {{ song.danceability }} |     </li>
+{% endfor %} </ul>
+
+<ul>
+{% else %}
+<strong>No songs! :(</strong>
+{% endif %} </div>
+{% endblock %}
