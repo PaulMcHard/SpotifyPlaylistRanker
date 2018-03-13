@@ -14,6 +14,7 @@ from spotipy import oauth2
 from spotipy.oauth2 import SpotifyClientCredentials
 from flask import Flask, request, redirect, g, render_template
 from django.contrib.auth import logout as django_logout
+from django.contrib.auth.models import User
 
 from rankify.spotify_utils import  get_tracks, get_playlists_by_username, get_display_name, get_profile_picture
 
@@ -113,24 +114,24 @@ def user(request):
 
 def show_user(request, username):
     context_dict = {}
+    the_user = None
 
-    try:
-        user = request.user
-        username = user.username
-        playlist_list = Playlist.objects.filter(creator = request.user)
-        playlist_list = playlist_list.order_by('-avg_danceability')[:5]
-        image = get_profile_picture(request.user.username)
-        context_dict['playlists'] = playlist_list
-        context_dict['user'] = user
-        context_dict['username'] = username
-        context_dict['image_url'] = image
+    for user in User.objects.all():
+        if user.username == username:
+            the_user = user
 
 
-    except User.DoesNotExist:
-        context_dict['playlists'] = None
-        context_dict['user'] = None
-        context_dict['username'] = None
-        context_dict['image_url'] = None
+
+
+    playlist_list = Playlist.objects.filter(creator = the_user)
+    playlist_list = playlist_list.order_by('-avg_danceability')[:5]
+    image = get_profile_picture(username)
+    context_dict['playlists'] = playlist_list
+    context_dict['username'] = username
+    context_dict['image_url'] = image
+
+
+
 
     return render(request, 'rankify/user.html', context_dict )
 
