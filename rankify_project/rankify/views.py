@@ -91,11 +91,48 @@ def rankings(request):
 def user(request):
     #TODO- change this creator to be the user specificed by the url
     #as it stands this shows the active users playlists no matter what profile we are on
-    playlist_list = Playlist.objects.filter(creator = request.user)
-    users_playlist_list = Playlist.objects.order_by('-avg_danceability')[:5]
-    image = get_profile_picture(request.user.username)
-    context_dict = {'playlists': playlist_list, 'image_url': image}
-    return render(request, 'rankify/user.html', context_dict)
+    context_dict = {}
+    try:
+        user = request.user
+        username = user.username
+        playlist_list = Playlist.objects.filter(creator = request.user)
+        playlist_list = playlist_list.order_by('-avg_danceability')[:5]
+        image = get_profile_picture(request.user.username)
+        context_dict['playlists'] = playlist_list
+        context_dict['user'] = user
+        context_dict['username'] = username
+        context_dict['image_url'] = image
+
+    except User.DoesNotExist:
+        context_dict['playlists'] = None
+        context_dict['user'] = None
+        context_dict['username'] = None
+        context_dict['image_url'] = None
+
+    return render(request, 'rankify/user.html', context_dict )
+
+def show_user(request, username):
+    context_dict = {}
+
+    try:
+        user = request.user
+        username = user.username
+        playlist_list = Playlist.objects.filter(creator = request.user)
+        playlist_list = playlist_list.order_by('-avg_danceability')[:5]
+        image = get_profile_picture(request.user.username)
+        context_dict['playlists'] = playlist_list
+        context_dict['user'] = user
+        context_dict['username'] = username
+        context_dict['image_url'] = image
+
+
+    except User.DoesNotExist:
+        context_dict['playlists'] = None
+        context_dict['user'] = None
+        context_dict['username'] = None
+        context_dict['image_url'] = None
+
+    return render(request, 'rankify/user.html', context_dict )
 
 
 
@@ -179,7 +216,7 @@ def add_playlist(request):
             print(form.errors)
             print('INVALID')
 
-    return render(request, 'rankify/a_playlist.html', {'form': form})
+    return render(request, 'rankify/add_playlist.html', {'form': form})
 
 
 
