@@ -15,7 +15,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from flask import Flask, request, redirect, g, render_template
 from django.contrib.auth import logout as django_logout
 
-from rankify.spotify_utils import get_playlist_names, get_tracks, get_playlists_by_username, get_display_name, get_profile_picture
+from rankify.spotify_utils import  get_tracks, get_playlists_by_username, get_display_name, get_profile_picture
 
 from rankify.forms import UserForm
 
@@ -157,7 +157,7 @@ def add_playlist(request):
                 already_added = True
 
 
-        if already_added == False:
+        if (already_added == False) and (playlist['owner']['id'] == request.user.username):
             CHOICES.append((playlist['name'], playlist['name']))
 
     # create the form, default 'creator' to be the current UserProfile
@@ -198,7 +198,9 @@ def add_playlist(request):
                     # add the playlists uri to the db
                     added_playlist.spotify_playlist_uri = playlist['uri']
                     #add the playlists danceability!
-                    avg_danceability = total_danceability / track_counter
+                    avg_danceability = 0
+                    if track_counter > 0:
+                        avg_danceability = total_danceability / track_counter
                     added_playlist.avg_danceability = avg_danceability
                     avg_danceability = round(  avg_danceability, 2 )
 
@@ -206,7 +208,13 @@ def add_playlist(request):
                     added_playlist.creator = request.user
                     print(playlist['images'][0]['url'])
                     added_playlist.playlist_image_url = get_profile_picture(request.user.username)
-                    added_playlist.creator_display_name = get_display_name(request.user.username)
+                    display_name = get_display_name(request.user.username)
+
+                    #not all spotify users have a display name, user their username if this is the case
+                    if display_name:
+                        added_playlist.creator_display_name = display_name
+                    else:
+                        added_playlist.creator_display_name = request.user.username
 
                     added_playlist.save() #and save the playlist
                     playlist_added = True

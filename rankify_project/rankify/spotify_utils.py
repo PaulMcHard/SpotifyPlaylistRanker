@@ -2,7 +2,7 @@ from __future__ import print_function    # (at top of module)
 
 import spotipy
 import spotipy.util
-from spotipy import util
+from spotipy import util, SpotifyException
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.oauth2 as oauth2
 from texttable import Texttable
@@ -37,37 +37,26 @@ sp = spotipy.Spotify(auth=token)
 def get_playlists_by_username(spotify_username):
     playlists = sp.user_playlists(spotify_username)
 
+
     return playlists
 
 
 
 
 
-# returns a list of the names (strings) of playlists created by this user
-def get_playlist_names(username):
-    playlists = sp.user_playlists(username)
-    playlist_names = []
 
-    for playlist in playlists['items']:
-
-        # we only want to show playlists created by this user
-        # i.e. not other users playlists they have saved to their profile
-        # so they can only choose their own playlists
-        if (playlist['owner']['id'] == username):
-            playlist_names.append(playlist['name'])
-
-
-    return playlist_names
 
 
 
 
 # processes a users playlist track by track, adding each track to the db as a song
 def get_tracks(playlist, username):
-    results = sp.user_playlist(username, playlist['id'], fields="tracks,next")
-    tracks = results['tracks']
     songs = []
-    for i, item in enumerate(tracks['items']):
+    try:
+        results = sp.user_playlist(username, playlist['id'], fields="tracks,next")
+        tracks = results['tracks']
+
+        for i, item in enumerate(tracks['items']):
             try: # none of this will work if spotify have removed/lost rights to the track
                 track = item['track']
                 features = sp.audio_features(track['id'])
@@ -99,6 +88,9 @@ def get_tracks(playlist, username):
             except TypeError:
                 print("spotify have removed this track")
 
+    except SpotifyException:
+            print("playlist not found")
+
     return songs # return the list of songs
 
 
@@ -109,7 +101,7 @@ def get_display_name(username):
 
 def get_profile_picture(username):
     user = sp.user(username)
-    print(user)
+    #print(user)
     pics = user['images']
     if pics:
         return pics[0]['url']

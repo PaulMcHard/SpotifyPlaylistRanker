@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from rankify.models import Playlist, Song
 
-from rankify.spotify_utils import get_playlist_names
+
 from django.contrib import admin
 
 
