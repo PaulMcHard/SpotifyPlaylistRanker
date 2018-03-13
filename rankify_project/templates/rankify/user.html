@@ -10,6 +10,8 @@
 {% block body_block %}
       <div>
           <h2>Profile Page of {{ user.first_name }} {{ user.last_name }}</h2>
-
+        </div>
+        <div>
+            <a href="/rankify/user/{{ username }}">{{ username }}</a>
       </div>
 {% endblock %}

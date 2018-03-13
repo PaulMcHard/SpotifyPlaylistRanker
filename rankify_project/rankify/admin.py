@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from rankify.models import Playlist, Song
 
 class PlaylistAdmin(admin.ModelAdmin):
@@ -9,5 +8,6 @@ class PlaylistAdmin(admin.ModelAdmin):
 class SongAdmin(admin.ModelAdmin):
     list_display = ('song_name', 'spotify_song_uri', 'danceability')
 
+    
 admin.site.register(Playlist, PlaylistAdmin)
 admin.site.register(Song, SongAdmin)

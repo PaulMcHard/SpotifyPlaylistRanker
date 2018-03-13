@@ -78,9 +78,38 @@ def rankings(request):
     return render(request, 'rankify/rankings.html')
 
 def user(request):
-    return render(request, 'rankify/user.html')
+    context_dict = {}
 
+    try:
+        user = request.user
+        username = user.username
+        playlists = get_playlist_names(username)
+        context_dict['playlists'] = playlists
+        context_dict['user'] = user
+        context_dict['username'] = username
 
+    except User.DoesNotExist:
+        context_dict['playlists'] = None
+        context_dict['user'] = None
+
+    return render(request, 'rankify/user.html', context_dict )
+
+def show_user(request, username):
+    context_dict = {}
+
+    try:
+        user = request.user
+        username = user.username
+        playlists = get_playlist_names(username)
+        context_dict['playlists'] = playlists
+        context_dict['user'] = user
+        context_dict['username'] = username
+
+    except User.DoesNotExist:
+        context_dict['playlists'] = None
+        context_dict['user'] = None
+
+    return render(request, 'rankify/user.html', context_dict )
 
 
 # this is the business function here, adding and processing a playlist to the db
