@@ -12,8 +12,8 @@
 <div> your profile picture is at {{ image_url }}
 <div style="color:White">
 {% if playlists %} <ul>
-{% for playlist in playlists %} <li>Name: {{ playlist.name }}  |   Danceability: {{ playlist.avg_danceability }} | </li>
-<a href="/rankify/playlist/{{ playlist.slug }}">breakdown</a>
+{% for playlist in playlists %} <li>Name: {{ playlist.name }}  |   Danceability: {{ playlist.avg_danceability }} | <a href="/rankify/playlist/{{ playlist.slug }}">breakdown</a> </li>
+
 {% endfor %} </ul>
 {% else %}
 <strong>You haven't Rankified any playlists!.</strong>

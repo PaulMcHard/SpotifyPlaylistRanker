@@ -11,7 +11,7 @@
 <h1> World Rankings </h1>
 <div style="color:White">
 {% if playlists %} <ul>
-{% for playlist in playlists %} <li>Name: {{ playlist.name }} |      Danceability: {{ playlist.avg_danceability }} | Creator = {{ playlist.creator_display_name }} |     </li>
+{% for playlist in playlists %} <li>Name: {{ playlist.name }} |      Danceability: {{ playlist.avg_danceability }} | Creator = {{ playlist.creator_display_name }} | <a href="/rankify/playlist/{{ playlist.slug }}">breakdown</a>    </li>
 {% endfor %} </ul>
 for each playlist you can also access a thumbnail image using playlist.playlist_image_url
 <ul>
