@@ -17,9 +17,8 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^rankings/$', views.rankings, name='rankings'),
     url(r'^add_playlist/$', views.add_playlist, name='add_playlist'),
-
-    # just a placeholder for now, will change to specific user
     url(r'^user/$', views.user, name='user'),
+    url(r'^user/?P<username>[\w\-]+)/$', views.show_user, name='show_user'),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$',views.logout, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
