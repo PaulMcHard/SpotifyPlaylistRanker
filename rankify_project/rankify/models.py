@@ -1,28 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # we'll need to include songs in our database too, since one of our
 # requirements was to breakdown danceability song by song
 # we could ask the spotify API every time, but that'd be slower I think
@@ -40,8 +18,6 @@ class Song(models.Model):
 
     def __str__(self):
         return self.song_name
-
-
 
 
 class Playlist(models.Model):
