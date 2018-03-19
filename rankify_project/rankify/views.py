@@ -140,6 +140,7 @@ def show_user(request, username):
 
 # this is the business function here, adding and processing a playlist to the db
 # TODO - this runs slow! can we speed it up somehow?
+@login_required
 def add_playlist(request):
 
     current_user = request.user # get the current users UserProfile
@@ -233,7 +234,7 @@ def add_playlist(request):
 
 
 def show_playlist(request, playlist_slug):
-    context_dict = {}
+
 
     #check this playlist exists in the db
     playlist = Playlist.objects.get(slug=playlist_slug)
