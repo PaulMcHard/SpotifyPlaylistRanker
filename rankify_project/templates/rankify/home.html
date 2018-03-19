@@ -9,6 +9,8 @@
 
 {% block body_block %}
   <div id="content">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 
       <img src="{% static "img/cover.jpg" %}" alt="Rankify" width="1000" id="cover"/>
 
@@ -17,7 +19,7 @@
           <a>Logged in as {{ display_name }} </a>
            <a href="/rankify/logout/">Log Out</a>
         {% else %}
-          <a href="/rankify/login/">Login</a>
+          <a href="{% url 'social:begin' 'spotify' %}">Login</a>
           <!-- <a href="/about/">About</a> -->
         {% endif %}
       </nav>
@@ -33,17 +35,20 @@
         <!-- if the user is logged in they have some options: -->
 
         <!-- if the user has linked their spotify, prompt to upload a playlist -->
-        <a href="{% url 'add_playlist' %}" class="big-add">Add a Playlist</a>
+        <a href="{% url 'add_playlist' %}" class="big-add ajaxLink">Add a Playlist</a>
+        <div class="addPlaylistArea dynamic"></div>
+        <div class="rankingsArea dynamic"></div>
+        <div class="userPlaylistsArea dynamic"></div>
 
      {% else %}
          <!--if the user isn't even logged in, prompt them to do so -->
      <a href="/rankify/login/" class="big-add">Log in to find out! </a>
     {% endif %}
       <div class="button-row">
-        <a href="/rankify/rankings/" class="rounded-button">Rankings</a>
+        <a href="/rankify/rankings/" class="rounded-button ajaxLink">Rankings</a>
         {% if user.is_authenticated %}
         <!--if the user is logged in they can view their profile (playlists)-->
-        <a href="/rankify/user/" class="rounded-button">Your Playlists</a>
+        <a href="/rankify/user/" class="rounded-button ajaxLink">Your Playlists</a>
         {% endif %}
       </div>
 
