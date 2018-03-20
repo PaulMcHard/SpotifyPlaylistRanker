@@ -1,4 +1,3 @@
-
 from django import forms
 from rankify.forms import PlaylistForm
 import sys
@@ -15,17 +14,11 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from flask import Flask, request, redirect, g, render_template
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth.models import User
-
 from rankify.spotify_utils import  get_tracks, get_playlists_by_username, get_display_name, get_profile_picture
-
 from rankify.forms import UserForm
-
 from rankify.models import Playlist
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
-
 from django.urls import reverse
 
 # loads of variables to allow the user to authorise this app with their spotify
@@ -54,7 +47,6 @@ token = None
 
 
 
-
 @login_required
 def logout(request):
     django_logout(request)
@@ -62,32 +54,18 @@ def logout(request):
 
 
 
-
-
-
-
 def index(request):
+    return render(request, 'rankify/home.html' , getSession(request) )
 
-    # pass a variable to the template to indicate loggined in or not
-    logged_in = False
-    display_name = ""
-    if request.user.is_authenticated: # if active user
-        logged_in = True
-        display_name = get_display_name(request.user.username)
-
-
-    return render(request, 'rankify/home.html' , {'logged_in': logged_in, 'display_name': display_name} )
 
 
 def rankings(request):
     playlist_list = Playlist.objects.order_by('-avg_danceability')[:10]
+    session = getSession(request)
+    session['playlists'] = playlist_list
+    return render(request, 'rankify/rankings.html', session)
 
 
-
-
-
-    context_dict = {'playlists': playlist_list, }
-    return render(request, 'rankify/rankings.html', context_dict)
 
 def user(request):
     #TODO- change this creator to be the user specificed by the url
@@ -112,6 +90,8 @@ def user(request):
 
     return render(request, 'rankify/user.html', context_dict )
 
+
+
 def show_user(request, username):
     context_dict = {}
     the_user = None
@@ -120,9 +100,6 @@ def show_user(request, username):
         if user.username == username:
             the_user = user
 
-
-
-
     playlist_list = Playlist.objects.filter(creator = the_user)
     playlist_list = playlist_list.order_by('-avg_danceability')[:5]
     image = get_profile_picture(username)
@@ -130,17 +107,27 @@ def show_user(request, username):
     context_dict['username'] = username
     context_dict['image_url'] = image
 
-
-
-
     return render(request, 'rankify/user.html', context_dict )
 
+
+
+def getSession(request):
+    # pass a variable to the template to indicate loggined in or not
+    logged_in = False
+    display_name = ""
+    if request.user.is_authenticated: # if active user
+        logged_in = True
+        display_name = get_display_name(request.user.username)
+
+    return {'logged_in': logged_in, 'display_name': display_name}
 
 
 
 # this is the business function here, adding and processing a playlist to the db
 # TODO - this runs slow! can we speed it up somehow?
 def add_playlist(request):
+
+    session = getSession(request)
 
     current_user = request.user # get the current users UserProfile
     spotify_username = request.user.username#get their spotify username
@@ -219,21 +206,23 @@ def add_playlist(request):
 
                     added_playlist.save() #and save the playlist
                     playlist_added = True
-            return render(request, 'rankify/home.html', {'avg_danceability': avg_danceability, 'playlist_added': playlist_added, 'playlist_name': added_playlist.name} )
+
+            session['avg_danceability'] = avg_danceability
+            session['playlist_added'] = playlist_added
+            session['playlist_name'] = playlist_name
+            return render(request, 'rankify/home.html', session )
 
         else:
             print(form.errors)
             print('INVALID')
 
-    return render(request, 'rankify/add_playlist.html', {'form': form})
-
-
-
+    session['form'] = form
+    return render(request, 'rankify/add_playlist.html', session)
 
 
 
 def show_playlist(request, playlist_slug):
-    context_dict = {}
+    context_dict = getSession(request)
 
     #check this playlist exists in the db
     playlist = Playlist.objects.get(slug=playlist_slug)

@@ -1,7 +1,16 @@
 $(document).ready(function(){
 
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!this.crossDomain) {
+        //Security settting required by Django
+        xhr.setRequestHeader("X-CSRFToken", $("[name=csrfmiddlewaretoken]").val());
+      }
+    }
+});
+
   window.onpopstate = function(e) {
-    $(".dynamic").empty();//not working
+    $(".dynamic").html();//not working
   };
 
   $(".ajaxLink").click(function(event) {
@@ -12,7 +21,9 @@ $(document).ready(function(){
       window.history.pushState({url: "" + targetUrl + ""}, targetTitle, targetUrl);
     }
     $.ajax({
+      type: "POST",
       url: targetUrl,
+      data: { ajax: "true"},
       success: function(result){
         pageLoaded(result, targetUrl);
       },
@@ -25,13 +36,5 @@ $(document).ready(function(){
 });
 
 function pageLoaded (data, url) {
-  if(url == "/rankify/add_playlist/") {
-    $(".addPlaylistArea").html(data);
-  }
-  else if (url == "/rankify/user/") {
-    $(".userPlaylistsArea").html(data);
-  }
-  else if (url == "/rankify/rankings/") {
-    $(".rankingsArea").html(data);
-  }
+    $(".intro-text").html(data);
 }
