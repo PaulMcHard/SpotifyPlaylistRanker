@@ -13,12 +13,16 @@ from django.contrib.auth.models import User
 from rankify.spotify_utils import *
 
 
-
+#NOTE: the population script uses real spotify user so that functionality
+# such as their profile picture exists. However we don't use real playlist and
+# song data because it would take to long to access the SpotifyAPI for all that
+# data at once in the population script. Just using made up fake playlist data
+# here
 
 
 def populate():
     usernames = ['lewisrenfrew', 'alicejanehughes',
-    'fizzgerald',  'elliot.sexton', 'ciaranroy1',
+    'fizzgerald',  'ciaranroy1',
     'johnwise123', 'christopherjamesharkins', 'hemadeit']
     users = []
 
