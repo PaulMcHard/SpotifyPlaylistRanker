@@ -5,6 +5,18 @@ a {
   color: #1DB954;
   text-decoration: none !important;
 }
+
+#WebGLCanvas {
+    z-index: -3;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+
+
+
+
+}
 #content {
   text-align: center;
   max-width: 1000px;

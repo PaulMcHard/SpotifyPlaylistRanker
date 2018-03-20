@@ -8,6 +8,22 @@
 
 
 {% block body_block %}
+
+    {% if playlist_added %}
+    <div id="speed" align="center"  data-value="{{ avg_danceability }}">
+    {% else %}
+    <div id="speed" align="center"  data-value="0.1">
+    Can you create the worlds most danceable playlist?
+    {% endif %}
+
+
+
+{% csrf_token %}
+
+
+
+
+
 {% if playlist_added %}
 {{ playlist_name }} has a danceability of {{ avg_danceability }}
 {% else %}

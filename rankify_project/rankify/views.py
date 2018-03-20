@@ -220,6 +220,7 @@ def add_playlist(request):
             session['avg_danceability'] = avg_danceability
             session['playlist_added'] = playlist_added
             session['playlist_name'] = added_playlist.name
+            session['number'] = 4
             return render(request, 'rankify/home.html', session )
 
         else:

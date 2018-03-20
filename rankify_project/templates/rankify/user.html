@@ -11,14 +11,14 @@
 
 
 
-
+<div id="speed" align="center"  data-value="0.1">
 
 <div>
     {% if image_url == 'no picture set!!' %}
 
     <img src="{% static "img/default_avatar.jpg" %}" alt="none" width="100" id="avatar"/>
     {% else %}
-    <img src="{{ image_url }}" alt="none" width="100" id="avatar"/> 
+    <img src="{{ image_url }}" alt="none" width="100" id="avatar"/>
     {% endif %}
 {% if playlists %} <ul>
 {% for playlist in playlists %}
