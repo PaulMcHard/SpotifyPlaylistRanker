@@ -8,7 +8,7 @@
 
 {% block body_block %}
 <h1>Choose a Playlist</h1> <div>
-<form id="category_form" method="post" action="/rankify/add_playlist/">
+<form id="category_form" method="post" action="/rankify/add_playlist/?spa=true">
     {% csrf_token %}
 {% for hidden in form.hidden_fields %}
                     {{ hidden }}
