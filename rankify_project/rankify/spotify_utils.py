@@ -1,20 +1,13 @@
-from __future__ import print_function    # (at top of module)
-
+from __future__ import print_function
 import spotipy
 import spotipy.util
 from spotipy import util, SpotifyException
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.oauth2 as oauth2
-from texttable import Texttable
 import urllib.request
 from rankify.models import Song
-
 from spotipy.oauth2 import SpotifyClientCredentials
-
-
-
 import json
-
 import time
 import sys
 
@@ -30,11 +23,12 @@ auth = oauth2.SpotifyClientCredentials(
     client_secret='562e93edd67b40cca215c3c882dc41a2'
 )
 
-token = auth.get_access_token()
-sp = spotipy.Spotify(auth=token)
+
 
 # returns a list of all playlist objects for specified user
 def get_playlists_by_username(spotify_username):
+    token = auth.get_access_token()
+    sp = spotipy.Spotify(auth=token)
     playlists = sp.user_playlists(spotify_username)
 
 
@@ -51,6 +45,8 @@ def get_playlists_by_username(spotify_username):
 
 # processes a users playlist track by track, adding each track to the db as a song
 def get_tracks(playlist, username):
+    token = auth.get_access_token()
+    sp = spotipy.Spotify(auth=token)
     songs = []
     try:
         results = sp.user_playlist(username, playlist['id'], fields="tracks,next")
@@ -95,11 +91,15 @@ def get_tracks(playlist, username):
 
 
 def get_display_name(username):
+    token = auth.get_access_token()
+    sp = spotipy.Spotify(auth=token)
     user = sp.user(username)
     return user['display_name']
 
 
 def get_profile_picture(username):
+    token = auth.get_access_token()
+    sp = spotipy.Spotify(auth=token)
     user = sp.user(username)
     #print(user)
     pics = user['images']

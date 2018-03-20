@@ -12,7 +12,6 @@ from django.utils.http import urlquote
 import spotipy
 from spotipy import oauth2
 from spotipy.oauth2 import SpotifyClientCredentials
-from flask import Flask, request, redirect, g, render_template
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth.models import User
 from rankify.spotify_utils import  get_tracks, get_playlists_by_username, get_display_name, get_profile_picture
@@ -131,14 +130,13 @@ def getSession(request):
 
 
 # this is the business function here, adding and processing a playlist to the db
-# TODO - this runs slow! can we speed it up somehow?
 @login_required
 def add_playlist(request):
 
     session = getSession(request)
 
-    current_user = request.user # get the current users UserProfile
-    spotify_username = request.user.username#get their spotify username
+    current_user = request.user # get the current users
+    spotify_username = request.user.username #get their spotify username
 
     playlists = get_playlists_by_username(spotify_username) #grab their playlists
 
@@ -167,11 +165,7 @@ def add_playlist(request):
     if request.method == 'POST': #if we're posting
         if form.is_valid(): #check valid
             added_playlist = form.save(commit=True) #make a new playlist from the form
-
-
-
             playlists = get_playlists_by_username(spotify_username)
-
             #search this users playlists till we find which one was selected
             for playlist in playlists['items']:
                 if playlist['name'] == added_playlist.name:
@@ -195,6 +189,7 @@ def add_playlist(request):
                     added_playlist.spotify_playlist_uri = playlist['uri']
                     #add the playlists danceability!
                     avg_danceability = 0
+
                     if track_counter > 0:
                         avg_danceability = total_danceability / track_counter
                     added_playlist.avg_danceability = avg_danceability
@@ -202,11 +197,10 @@ def add_playlist(request):
 
 
                     added_playlist.creator = request.user
-                    print(playlist['images'][0]['url'])
                     added_playlist.playlist_image_url = get_profile_picture(request.user.username)
                     display_name = get_display_name(request.user.username)
 
-                    #not all spotify users have a display name, user their username if this is the case
+                    #not all spotify users have a display name, use their username if this is the case
                     if display_name:
                         added_playlist.creator_display_name = display_name
                     else:
