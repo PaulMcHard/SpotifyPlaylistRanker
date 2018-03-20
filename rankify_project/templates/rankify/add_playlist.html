@@ -7,8 +7,8 @@
 {% endblock %}
 
 {% block body_block %}
-<h1>Choose a Playlist</h1> <div>
-<form id="category_form" method="post" action="/rankify/add_playlist/?spa=true">
+<h1 class="pageTitle">Choose a Playlist</h1> <div>
+<form id="add_playlist_form" method="post" action="/rankify/add_playlist/">
     {% csrf_token %}
 {% for hidden in form.hidden_fields %}
                     {{ hidden }}
@@ -21,5 +21,5 @@
 {% endfor %}
 <input type="submit" name="submit" value="Upload" />
 
-</form>
+</form><div class="loading">Loading, please wait...</div>
 {% endblock %}
