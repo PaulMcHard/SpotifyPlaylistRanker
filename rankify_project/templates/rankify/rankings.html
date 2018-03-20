@@ -9,7 +9,7 @@
 
 {% block body_block %}
 <h1> World Rankings </h1>
-<div style="color:White">
+<div>
 {% if playlists %} <ul>
 {% for playlist in playlists %} <li>Name: {{ playlist.name }} |      Danceability: {{ playlist.avg_danceability }} | Creator = <a href="/rankify/user/{{ playlist.creator }}">{{ playlist.creator_display_name }}</a> |    </li>
 {% endfor %} </ul>
