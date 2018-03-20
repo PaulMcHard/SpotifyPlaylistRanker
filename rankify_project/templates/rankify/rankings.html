@@ -1,6 +1,6 @@
-{% if request.GET.ajax != "true" %}
-{% extends 'rankify/base.html' %}
-{% endif %}
+
+{% extends ajaxProofTemplate %}
+
 {% load staticfiles %}
 
 {% block title_block %}

@@ -70,7 +70,7 @@ def rankings(request):
 def user(request):
     #TODO- change this creator to be the user specificed by the url
     #as it stands this shows the active users playlists no matter what profile we are on
-    context_dict = {}
+    context_dict = getSession(request)
     try:
         user = request.user
         username = user.username
@@ -93,7 +93,7 @@ def user(request):
 
 
 def show_user(request, username):
-    context_dict = {}
+    context_dict = getSession(request)
     the_user = None
 
     for user in User.objects.all():
@@ -112,14 +112,20 @@ def show_user(request, username):
 
 
 def getSession(request):
+    session = {}
     # pass a variable to the template to indicate loggined in or not
-    logged_in = False
-    display_name = ""
+    session['logged_in'] = False
+    session['display_name'] = ""
     if request.user.is_authenticated: # if active user
-        logged_in = True
-        display_name = get_display_name(request.user.username)
+        session['logged_in'] = True
+        session['display_name'] = get_display_name(request.user.username)
 
-    return {'logged_in': logged_in, 'display_name': display_name}
+    if request.POST.get("ajax") == "true":
+        session['ajaxProofTemplate'] = 'rankify/ajaxbase.html'
+    else:
+        session['ajaxProofTemplate'] = 'rankify/base.html'
+
+    return session
 
 
 

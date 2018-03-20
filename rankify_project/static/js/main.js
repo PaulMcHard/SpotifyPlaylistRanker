@@ -10,7 +10,7 @@ $(document).ready(function(){
 });
 
   window.onpopstate = function(e) {
-    $(".dynamic").html();//not working
+    fetchPage(window.location.pathname);
   };
 
   $(".ajaxLink").click(function(event) {
@@ -20,21 +20,25 @@ $(document).ready(function(){
     if(window.location.pathname != targetUrl) {
       window.history.pushState({url: "" + targetUrl + ""}, targetTitle, targetUrl);
     }
-    $.ajax({
-      type: "POST",
-      url: targetUrl,
-      data: { ajax: "true"},
-      success: function(result){
-        pageLoaded(result, targetUrl);
-      },
-      error: function () {
-        alert('There was an error connecting to our server. Check your internet connection and try again.');
-      }
-    });
+    fetchPage(targetUrl);
   });
 
 });
 
-function pageLoaded (data, url) {
+function fetchPage(targetUrl) {
+  $.ajax({
+    type: "POST",
+    url: targetUrl,
+    data: { ajax: "true"},
+    success: function(result){
+      pageLoaded(result, targetUrl);
+    },
+    error: function () {
+      alert('There was an error connecting to our server. Check your internet connection and try again.');
+    }
+  });
+}
+
+function pageLoaded (data, url) {//Need to change the page title
     $(".intro-text").html(data);
 }
