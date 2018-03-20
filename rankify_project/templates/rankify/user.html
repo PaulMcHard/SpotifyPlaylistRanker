@@ -8,10 +8,21 @@
 
 {% block body_block %}
 <h1> Rankified Playlists </h1>
-<div> your profile picture is at {{ image_url }}</div>
+
+
+
+
+
 <div>
+    {% if image_url == 'no picture set!!' %}
+
+    <img src="{% static "img/default_avatar.jpg" %}" alt="none" width="100" id="avatar"/>
+    {% else %}
+    <img src="{{ image_url }}" alt="none" width="100" id="avatar"/> 
+    {% endif %}
 {% if playlists %} <ul>
-{% for playlist in playlists %} <li>Name: {{ playlist.name }}  |   Danceability: {{ playlist.avg_danceability }} | <a href="/rankify/playlist/{{ playlist.slug }}">breakdown</a> </li>
+{% for playlist in playlists %}
+<li>Name: {{ playlist.name }}  |   Danceability: {{ playlist.avg_danceability }} | <a href="/rankify/playlist/{{ playlist.slug }}">breakdown</a> </li>
 
 {% endfor %} </ul>
 {% else %}
