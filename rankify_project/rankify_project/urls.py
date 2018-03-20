@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^rankify/', include('rankify.urls')),
     url(r'^admin/', admin.site.urls),
+    url('^', include('django.contrib.auth.urls'))
     ]

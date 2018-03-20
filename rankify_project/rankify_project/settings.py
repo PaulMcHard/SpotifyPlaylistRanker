@@ -29,6 +29,7 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = 'index'
+LOGIN_URL = '/login'
 
 
 # Quick-start development settings - unsuitable for production

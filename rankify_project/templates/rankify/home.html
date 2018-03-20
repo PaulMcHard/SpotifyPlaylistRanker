@@ -1,6 +1,6 @@
-{% extends 'rankify/base.html' %}
-{% load staticfiles %}
+{% extends ajaxProofTemplate %}
 
+{% load staticfiles %}
 
 {% block title_block %}
   Home
@@ -8,49 +8,9 @@
 
 
 {% block body_block %}
-  <div id="content">
-
-      <img src="{% static "img/cover.jpg" %}" alt="Rankify" width="1000" id="cover"/>
-
-      <nav>
-        {% if user.is_authenticated %}
-          <a>Logged in as {{ display_name }} </a>
-           <a href="/rankify/logout/">Log Out</a>
-        {% else %}
-          <a href="/rankify/login/">Login</a>
-          <!-- <a href="/about/">About</a> -->
-        {% endif %}
-      </nav>
-
-      <div class ="intro-text">
-          {% if playlist_added %}
-          {{ playlist_name }} has a danceability of {{ avg_danceability }}
-          {% else %}
-         Can you create the worlds most danceable playlist?
-         {% endif %}
-      </div>
-      {% if user.is_authenticated %}
-        <!-- if the user is logged in they have some options: -->
-
-        <!-- if the user has linked their spotify, prompt to upload a playlist -->
-        <a href="{% url 'add_playlist' %}" class="big-add">Add a Playlist</a>
-
-     {% else %}
-         <!--if the user isn't even logged in, prompt them to do so -->
-     <a href="/rankify/login/" class="big-add">Log in to find out! </a>
-    {% endif %}
-      <div class="button-row">
-        <a href="/rankify/rankings/" class="rounded-button">Rankings</a>
-        {% if user.is_authenticated %}
-        <!--if the user is logged in they can view their profile (playlists)-->
-        <a href="/rankify/user/" class="rounded-button">Your Playlists</a>
-        {% endif %}
-      </div>
-
-      <footer>
-          Made for the Internet Technology class at <a href="https://www.gla.ac.uk" target="_blank">The University of Glasgow</a><br />
-          By Conor Mckeown, Paul McHard, Lewis Renfrew, and Nicholas Ferrera
-      </footer>
-
-  </div>
+{% if playlist_added %}
+{{ playlist_name }} has a danceability of {{ avg_danceability }}
+{% else %}
+Can you create the worlds most danceable playlist?
+{% endif %}
 {% endblock %}

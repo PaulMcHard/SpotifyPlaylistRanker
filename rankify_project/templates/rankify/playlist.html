@@ -1,15 +1,14 @@
-{% extends 'rankify/base.html' %}
+{% extends ajaxProofTemplate %}
+
 {% load staticfiles %}
 
-
 {% block title_block %}
-  Home
+  Playlist
 {% endblock %}
-
 
 {% block body_block %}
 <h1> Songs and Ranks </h1>
-<div style="color:White">
+<div>
 {% if songs %} <ul>
 {% for song in songs %} <li>Name: {{ song.song_name }} |      Danceability: {{ song.danceability }} |     </li>
 {% endfor %} </ul>

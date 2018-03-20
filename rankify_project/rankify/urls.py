@@ -23,9 +23,4 @@ urlpatterns = [
     url(r'^logout/$',views.logout, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^playlist/(?P<playlist_slug>[\w\-]+)/$', views.show_playlist, name='show_playlist'),
-
-
-
-
-
 ]
