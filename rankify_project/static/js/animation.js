@@ -32,7 +32,7 @@ function init() {
     pLight.position.set(25, 400, 25);
 
     renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth/1.5, window.innerHeight/1.5);
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
     geometry = new THREE.BoxGeometry(500, 500, 500);
     material = new THREE.MeshPhongMaterial({

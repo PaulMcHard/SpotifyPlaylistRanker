@@ -7,11 +7,12 @@ a {
 }
 
 #WebGLCanvas {
-    z-index: -3;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-left: 5%;
-    margin-right: 5%;
+    position: absolute;
+    z-index: -1;
+
+    top: 0px;
+
+
 
 
 
@@ -31,8 +32,9 @@ a {
   margin-left: 250px;
   margin-right: 250px;
   padding-top: 20px;
+  margin-top: 500px;
   padding-bottom: 20px;
-  margin-top: 400px;
+
   border-radius: 8px;
 }
 footer {
