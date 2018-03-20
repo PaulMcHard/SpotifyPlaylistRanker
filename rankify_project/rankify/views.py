@@ -1,6 +1,7 @@
 from django import forms
 from rankify.forms import PlaylistForm
 import sys
+import math
 import json
 import requests
 import base64
@@ -239,5 +240,45 @@ def show_playlist(request, playlist_slug):
 
     # stick them in the dictionary
     context_dict['songs'] = songs
+
+    #get av danceability and set variance and counter.
+    mean = playlist.avg_danceability
+    variance = 0
+    count = 0
+
+    #for each song get variance from mean and use that to calculate standard Deviation
+    for song in songs:
+        thisvar = song.danceability - mean
+        thisvar = thisvar ** 2
+        variance += thisvar
+        count += 1
+
+    if count > 0:
+        meanvar = variance/count
+    else: #avoid divide by zero problem
+        meanvar = 0;
+
+    stdDev = math.sqrt(meanvar)
+    stdDev = (round(stdDev, 3))
+    mean = (round(mean, 3))
+
+    abovedev = []
+    belowdev = []
+
+    for song in songs:
+        if( song.danceability > ( mean + stdDev )):
+            abovedev.append(song)
+        elif (song.danceability < ( mean - stdDev )):
+            belowdev.append(song)
+
+    #abovedev = sort(key = lambda danceability: song.danceability )
+    #belowdev.sort(key = lambda danceability: song.danceability )
+
+    abovedev = sorted(abovedev, key = lambda danceability: song.danceability)
+
+    context_dict['deviation'] =stdDev
+    context_dict['mean'] = mean
+    context_dict['abovedev'] = abovedev
+    context_dict['belowdev'] = belowdev
 
     return render(request, 'rankify/playlist.html', context_dict)

@@ -9,9 +9,27 @@
 {% block body_block %}
 <h1> Songs and Ranks </h1>
 <div>
+  {% if abovedev %} <ul>
+  <h3> Top Songs </h3>
+  {% for song in abovedev %}
+  <li>Name: {{ song.song_name }} |      Danceability: {{ song.danceability }} |     </li>
+  {% endfor %} </ul>
+  {% endif %}
+
+  {% if belowdev %} <ul>
+  <h3> Bottom Songs </h3>
+  {% for song in belowdev %}
+  <li>Name: {{ song.song_name }} |      Danceability: {{ song.danceability }} |     </li>
+  {% endfor %} </ul>
+  {% endif %}
+
 {% if songs %} <ul>
-{% for song in songs %} <li>Name: {{ song.song_name }} |      Danceability: {{ song.danceability }} |     </li>
+<h3> Full Breakdown </h3>
+<h6> Mean = {{ mean }} | Standard Deviation = {{ deviation }} </h6>
+{% for song in songs %}
+<li>Name: {{ song.song_name }} | Danceability: {{ song.danceability }} |     </li>
 {% endfor %} </ul>
+
 
 <ul>
 {% else %}
