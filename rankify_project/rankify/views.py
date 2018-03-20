@@ -118,7 +118,11 @@ def getSession(request):
     session['display_name'] = ""
     if request.user.is_authenticated: # if active user
         session['logged_in'] = True
-        session['display_name'] = get_display_name(request.user.username)
+        if not get_display_name(request.user.username):
+            session['display_name'] = request.user.username
+
+        else:
+            session['display_name'] = get_display_name(request.user.username)
 
     if request.POST.get("ajax") == "true":
         session['ajaxProofTemplate'] = 'rankify/ajaxbase.html'
