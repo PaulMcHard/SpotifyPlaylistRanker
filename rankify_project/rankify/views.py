@@ -128,7 +128,7 @@ def getSession(request):
         else:
             session['display_name'] = get_display_name(request.user.username)
 
-    if request.POST.get("ajax") == "true":
+    if request.GET.get("ajax") == "true":
         session['ajaxProofTemplate'] = 'rankify/ajaxbase.html'
     else:
         session['ajaxProofTemplate'] = 'rankify/base.html'

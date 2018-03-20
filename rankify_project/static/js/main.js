@@ -27,7 +27,7 @@ $(document).ready(function(){
 
 function fetchPage(targetUrl) {
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: targetUrl,
     data: { ajax: "true"},
     success: function(result){
