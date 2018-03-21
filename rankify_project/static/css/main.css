@@ -64,9 +64,7 @@ nav b, .rounded-button {
   display: inline-block;
   padding: 10px 20px;
   border-radius: 20px;
-
   color: #ffffff !important;
-  text-decoration: none !important;
   margin: 3px 6px;
   transition: padding .2s, margin .2s;
 }
@@ -98,15 +96,23 @@ nav b:hover, .rounded-button:hover {
   padding: 30px;
   margin-top: 85px;
 }
-table {
-    width: 90%;
-    text-align: left;
-    border-spacing: 5px;
-    margin-left: auto;
-    margin-right: auto;
+
+table td th
+{
+  table-layout:fixed;
+  width: 1000px;
+  overflow:hidden;
+  word-wrap:break-word;
+  text-align: left;
+  border-spacing: 10px;
+
+  border-spacing: 150px;
 }
 th {
-    height: 50px;
+    height: 40px;
+
+
+
 }
 .loading {
   display: none;

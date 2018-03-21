@@ -60,17 +60,15 @@
             <a href="{% url 'social:begin' 'spotify' %}">Login</a>
             <!-- <a href="/about/">About</a> -->
             {% endif %}
-                <b href="{% url 'index' %}"><img src="{% static "img/rankify_logo.png" %}" alt="RankifyLogo" width="140" id="rankifylogo"/></b>
+            <b href="{% url 'index' %}"><img src="{% static "img/rankify_logo.png" %}" alt="RankifyLogo" width="140" id="rankifylogo"/></b>
         </nav>
 
 
-
-
-
-
         <div class="intro-text" id="space">
-            {% block body_block %} {% endblock %}
+            {% block body_block %}
+            {% endblock %}
         </div>
+        
         {% if user.is_authenticated %}
         <!-- if the user is logged in they have some options: -->
 
