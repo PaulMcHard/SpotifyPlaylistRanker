@@ -19,7 +19,7 @@ a {
   margin-left: auto;
   margin-right: auto;
 }
-.intro-text {
+.main-text {
   background-color: #fff;
   color: #000000;
   z-index: 5;
@@ -81,16 +81,6 @@ nav a:hover, .rounded-button:hover {
 .button-row {
   margin-top: 20px;
   margin-bottom: 20px;
-}
-#cover {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  z-index: -1;
-  /* width:100%; */
 }
 .big-add {
   width: 100%;
