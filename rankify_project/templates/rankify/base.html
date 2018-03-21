@@ -20,7 +20,8 @@
       <div id="WebGLCanvas" onload="speed()"></div>
       <div id="content">
          <nav id="nav">
-            <a href="{% url 'index' %}" class="logohome"><img src="{% static "img/rankify_logo.png" %}" alt="RankifyLogo" width="80" id="rankifylogo"/></a>
+            <a href="{% url 'index' %}" class="logohome ajaxLink"><img src="{% static "img/rankify_logo.png" %}"
+              alt="RankifyLogo" width="80" id="rankifylogo"/></a>
             {% if user.is_authenticated %}
             <a href="/rankify/logout/" class="rightNav">Logged in as {{ display_name }}. Logout?</a>{% else %}
             <a href="{% url 'social:begin' 'spotify' %}" class="rightNav">Login</a>
@@ -42,7 +43,8 @@
             <a href="/rankify/user/" class="rounded-button ajaxLink">Your Playlists</a> {% endif %}
          </div>
          <footer>
-            Made for the Internet Technology class at <a href="https://www.gla.ac.uk" target="_blank">The University of Glasgow</a><br /> By Conor Mckeown, Paul McHard, Lewis Renfrew, and Nicholas Ferrera
+            Made for the Internet Technology class at <a href="https://www.gla.ac.uk" target="_blank">
+              The University of Glasgow</a><br /> By Conor Mckeown, Paul McHard, Lewis Renfrew, and Nicholas Ferrera
          </footer>
       </div>
    </body>

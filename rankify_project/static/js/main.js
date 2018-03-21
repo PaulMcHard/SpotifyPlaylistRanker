@@ -14,8 +14,7 @@ $(document).ready(function(){
     // history.pushState('', '', location.pathname);
   };
 
-  $("input [type=submit]").click(function() {
-    alert('hey');
+  $( "#add_playlist_form" ).submit(function( event ) {
     $(".loading").css("display", "inline");
   });
 

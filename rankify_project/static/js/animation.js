@@ -125,7 +125,7 @@ function animate() {
 
     var b = document.getElementById('speed').getAttribute('data-value');
     b = b * 10;
-	console.log(b);
+	// console.log(b);
 
     requestAnimationFrame(animate);
 
