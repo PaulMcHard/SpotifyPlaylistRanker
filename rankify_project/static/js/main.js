@@ -14,8 +14,9 @@ $(document).ready(function(){
     // history.pushState('', '', location.pathname);
   };
 
-  $("input [type=submit]").click(function(event) {
-    $(".loading").css("display", "inherit");
+  $("input [type=submit]").click(function() {
+    alert('hey');
+    $(".loading").css("display", "inline");
   });
 
   $(".ajaxLink").click(function(event) {
@@ -30,6 +31,7 @@ $(document).ready(function(){
 });
 
 function fetchPage(targetUrl) {
+  $(".loading").css("display", "none");
   $.ajax({
     type: "GET",
     url: targetUrl,
