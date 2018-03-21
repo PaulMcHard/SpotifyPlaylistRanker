@@ -38,6 +38,7 @@ footer {
 nav {
   position: fixed;
   margin-left: 20px;
+  margin-right: 20px;
   margin-top: 20px;
   top: 0;
   z-index: 10;
@@ -71,6 +72,11 @@ nav a:hover, .rounded-button:hover {
   margin: 0;
   transition: padding .2s, margin .2s;
 }
+/* .rightNav {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+} */
 .button-row {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -114,4 +120,7 @@ th {
 }
 .pageTitle {
   display: none;
+}
+img {
+  opacity: 100% !important;
 }
