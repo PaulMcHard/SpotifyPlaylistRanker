@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body_block %}
-<h1> Rankified Playlists </h1>
+<h1 class="pageTitle"> Rankified Playlists </h1>
 
 
 
@@ -21,8 +21,12 @@
     <img src="{{ image_url }}" alt="none" width="100" id="avatar"/>
     {% endif %}
 {% if playlists %} <ul>
+<<<<<<< HEAD
+{% for playlist in playlists %} <li>Name: {{ playlist.name }}  |   Danceability: {{ playlist.avg_danceability }} | <a href="/rankify/playlist/{{ playlist.slug }}">breakdown</a> <a href="/rankify/remove/{{ playlist.slug }}">remove playlist</a>  </li>
+=======
 {% for playlist in playlists %}
 <li>Name: {{ playlist.name }}  |   Danceability: {{ playlist.avg_danceability }} | <a href="/rankify/playlist/{{ playlist.slug }}">breakdown</a> </li>
+>>>>>>> d6aa3500f3a869c3310b12f5bc1f7071e6e29aec
 
 {% endfor %} </ul>
 {% else %}
