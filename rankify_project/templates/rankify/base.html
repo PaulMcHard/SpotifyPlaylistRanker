@@ -3,11 +3,12 @@
 
 
 <html>
-<link rel="shortcut icon" type="image/png" href="{% static "favicon/favicon.ico" %}"/>
+<link rel="shortcut icon" type="image/png" href="{% static " favicon/favicon.ico " %}"/>
 
 <head>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/90/three.min.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/90/three.min.js">
+    </script>
     <script src="{% static 'js/animation.js' %}"></script>
 
 
@@ -17,13 +18,7 @@
         to the screen size, so it will be displayed maximized, but unscaled. -->
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
     <style type="text/css">
-
-
-
-
-
         body {
-
             /* Set the background color of the HTML page to black */
             background-color: #000000;
             /* Hide oversized content. This prevents the scroll bars. */
@@ -48,57 +43,52 @@
     <!-- <div id="WebGLCanvas"></div> -->
 
 
-        <div id="WebGLCanvas" onload="speed()"></div>
+    <div id="WebGLCanvas" onload="speed()"></div>
 
 
 
-        <div id="content">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <script src="{% static 'js/main.js' %}"></script>
+    <div id="content">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="{% static 'js/main.js' %}"></script>
 
-            <!-- <img src="{% static " img/cover.jpg " %}" alt="Rankify" width="1000" id="cover" /> -->
+        <!-- <img src="{% static " img/cover.jpg " %}" alt="Rankify" width="1000" id="cover" /> -->
 
-            <nav id="nav">
-                {% if user.is_authenticated %}
-                <a>Logged in as {{ display_name }} </a>
-                <a href="/rankify/logout/">Log Out</a> {% else %}
-                <a href="{% url 'social:begin' 'spotify' %}">Login</a>
-                <!-- <a href="/about/">About</a> -->
-                {% endif %}
-            </nav>
-          <b href="{% url 'index' %}"><img src="{% static "img/rankify_logo.png" %}" alt="RankifyLogo" width="140" id="rankifylogo"/></b>
-
-
-
-
-
-            <div class="intro-text" id="space">
-                {% block body_block %}
-
-
-
-
-
-                {% endblock %}
-            </div>
+        <nav id="nav">
             {% if user.is_authenticated %}
-            <!-- if the user is logged in they have some options: -->
+            <a>Logged in as {{ display_name }} </a>
+            <a href="/rankify/logout/">Log Out</a> {% else %}
+            <a href="{% url 'social:begin' 'spotify' %}">Login</a>
+            <!-- <a href="/about/">About</a> -->
+            {% endif %}
+                <b href="{% url 'index' %}"><img src="{% static "img/rankify_logo.png" %}" alt="RankifyLogo" width="140" id="rankifylogo"/></b>
+        </nav>
 
-            <!-- if the user has linked their spotify, prompt to upload a playlist -->
-            <a href="{% url 'add_playlist' %}" class="big-add ajaxLink">Add a Playlist</a> {% else %}
-            <!--if the user isn't even logged in, prompt them to do so -->
-            <a href="{% url 'social:begin' 'spotify' %}" class="big-add">Log in to find out! </a> {% endif %}
-            <div class="button-row">
-                <a href="{% url 'rankings' %}" class="rounded-button ajaxLink">Rankings</a> {% if user.is_authenticated %}
-                <!--if the user is logged in they can view their profile (playlists)-->
-                <a href="/rankify/user/" class="rounded-button ajaxLink">Your Playlists</a> {% endif %}
-            </div>
 
-            <footer>
-                Made for the Internet Technology class at <a href="https://www.gla.ac.uk" target="_blank">The University of Glasgow</a><br /> By Conor Mckeown, Paul McHard, Lewis Renfrew, and Nicholas Ferrera
-            </footer>
 
+
+
+
+        <div class="intro-text" id="space">
+            {% block body_block %} {% endblock %}
         </div>
+        {% if user.is_authenticated %}
+        <!-- if the user is logged in they have some options: -->
+
+        <!-- if the user has linked their spotify, prompt to upload a playlist -->
+        <a href="{% url 'add_playlist' %}" class="big-add ajaxLink">Add a Playlist</a> {% else %}
+        <!--if the user isn't even logged in, prompt them to do so -->
+        <a href="{% url 'social:begin' 'spotify' %}" class="big-add">Log in to find out! </a> {% endif %}
+        <div class="button-row">
+            <a href="{% url 'rankings' %}" class="rounded-button ajaxLink">Rankings</a> {% if user.is_authenticated %}
+            <!--if the user is logged in they can view their profile (playlists)-->
+            <a href="/rankify/user/" class="rounded-button ajaxLink">Your Playlists</a> {% endif %}
+        </div>
+
+        <footer>
+            Made for the Internet Technology class at <a href="https://www.gla.ac.uk" target="_blank">The University of Glasgow</a><br /> By Conor Mckeown, Paul McHard, Lewis Renfrew, and Nicholas Ferrera
+        </footer>
+
+    </div>
 
 
 
