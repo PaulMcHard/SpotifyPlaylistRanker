@@ -3,18 +3,17 @@
 {% load staticfiles %}
 
 {% block title_block %}
-  User
+  Your Playlists - Rankify: How Danceable Are Your Spotify Playlists?
 {% endblock %}
 
 {% block body_block %}
-<h1 class="pageTitle"> Your Playlists
+<h1>Your Playlists</h1>
     {% if image_url == 'no picture set!!' %}
 
     <img src="{% static "img/default_avatar.jpg" %}" alt="none" width="100" id="avatar"/>
     {% else %}
     <img src="{{ image_url }}" alt="none" width="100" id="avatar"/>
     {% endif %}
- </h1>
 
 
 

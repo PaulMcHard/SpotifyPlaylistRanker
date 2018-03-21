@@ -14,7 +14,7 @@ $(document).ready(function(){
     // history.pushState('', '', location.pathname);
   };
 
-  $("#add_playlist_form").submit(function(event) {
+  $("input [type=submit]").click(function(event) {
     $(".loading").css("display", "inherit");
   });
 
@@ -27,7 +27,6 @@ $(document).ready(function(){
     }
     fetchPage(targetUrl);
   });
-
 });
 
 function fetchPage(targetUrl) {

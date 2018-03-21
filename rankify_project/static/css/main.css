@@ -1,11 +1,7 @@
 body {
   /*background-color: #191414;*/
   background-color: #000000;
-
   overflow: scroll;  //Change this to scroll or auto
-  /* margin: 0;
-  padding: 0; */
-
 }
 a {
   color: #1DB954;
@@ -27,16 +23,17 @@ a {
   color: #000000;
   z-index: 5;
   opacity: .8;
-  margin-left: 200px;
-  margin-right: 200px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
   padding-top: 20px;
-  margin-top: 500px;
+  margin-top: 300px;
   padding-bottom: 20px;
-
   border-radius: 8px;
 }
 footer {
   color: grey;
+  padding-bottom: 30px;
 }
 nav {
   position: fixed;
@@ -95,11 +92,9 @@ nav a:hover, .rounded-button:hover {
   color: white;
   font-weight: bold;
   padding: 30px;
-  margin-top: 85px;
+  margin-top: 35px;
 }
-
-table td th
-{
+table td th {
   table-layout:fixed;
   width: 1000px;
   overflow:hidden;
@@ -111,10 +106,12 @@ table td th
 }
 th {
     height: 40px;
-
-
-
 }
 .loading {
+  display: none;
+  font-weight: bold;
+  font-size: 20xp;
+}
+.pageTitle {
   display: none;
 }
