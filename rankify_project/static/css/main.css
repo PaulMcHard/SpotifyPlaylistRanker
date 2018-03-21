@@ -116,15 +116,21 @@ nav b:hover, .rounded-button:hover {
   margin-top: 85px;
 }
 
+table td th
+{
+  table-layout:fixed;
+  width: 1000px;
+  overflow:hidden;
+  word-wrap:break-word;
+  text-align: left;
+  border-spacing: 10px;
 
-table {
-    width: 90%;
-    text-align: left;
-    border-spacing: 5px;
-    margin-left: auto;
-    margin-right: auto;
+  border-spacing: 150px;
 }
 
 th {
-    height: 50px;
+    height: 40px;
+
+
+
 }
