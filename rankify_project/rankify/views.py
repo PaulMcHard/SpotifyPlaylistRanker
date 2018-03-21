@@ -68,8 +68,6 @@ def rankings(request):
 
 
 def user(request):
-    #TODO- change this creator to be the user specificed by the url
-    #as it stands this shows the active users playlists no matter what profile we are on
     context_dict = getSession(request)
     try:
         user = request.user
@@ -80,7 +78,13 @@ def user(request):
         context_dict['playlists'] = playlist_list
         context_dict['user'] = user
         context_dict['username'] = username
-        context_dict['image_url'] = image
+        if image == 'no picture set!!':
+            context_dict['image_url'] = "static/img/default_avatar.jpg"
+            print(context_dict['image_url'])
+        else:
+            context_dict['image_url'] = image
+            print(context_dict['image_url'])
+
 
     except User.DoesNotExist:
         context_dict['playlists'] = None
@@ -118,9 +122,13 @@ def getSession(request):
     session['display_name'] = ""
     if request.user.is_authenticated: # if active user
         session['logged_in'] = True
-        session['display_name'] = get_display_name(request.user.username)
+        if not get_display_name(request.user.username):
+            session['display_name'] = request.user.username
 
-    if request.POST.get("ajax") == "true":
+        else:
+            session['display_name'] = get_display_name(request.user.username)
+
+    if request.GET.get("ajax") == "true":
         session['ajaxProofTemplate'] = 'rankify/ajaxbase.html'
     else:
         session['ajaxProofTemplate'] = 'rankify/base.html'

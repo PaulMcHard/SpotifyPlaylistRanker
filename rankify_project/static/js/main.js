@@ -7,11 +7,15 @@ $(document).ready(function(){
         xhr.setRequestHeader("X-CSRFToken", $("[name=csrfmiddlewaretoken]").val());
       }
     }
-});
+  });
 
   window.onpopstate = function(e) {
     fetchPage(window.location.pathname);
   };
+
+  $("#add_playlist_form").submit(function(event) {
+    $(".loading").css("display", "inherit");
+  });
 
   $(".ajaxLink").click(function(event) {
     event.preventDefault();
@@ -27,7 +31,7 @@ $(document).ready(function(){
 
 function fetchPage(targetUrl) {
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: targetUrl,
     data: { ajax: "true"},
     success: function(result){
@@ -41,4 +45,5 @@ function fetchPage(targetUrl) {
 
 function pageLoaded (data, url) {//Need to change the page title
     $(".intro-text").html(data);
+    $("title").text($(".pageTitle").text());
 }

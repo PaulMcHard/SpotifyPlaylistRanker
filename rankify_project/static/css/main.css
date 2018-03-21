@@ -31,6 +31,7 @@ nav {
   margin-left: 20px;
   margin-top: 20px;
   top: 0;
+  z-index: 10;
 }
 nav a, .rounded-button {
   display: inline-block;
@@ -69,4 +70,20 @@ nav a:hover, .rounded-button:hover {
   font-weight: bold;
   padding: 30px;
   margin-top: 85px;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+footer {
+  margin-bottom: 30px;
+}
+
+.loading {
+  display: none;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 5px;
 }
