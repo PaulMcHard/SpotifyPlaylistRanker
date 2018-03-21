@@ -8,19 +8,19 @@
 
 {% block body_block %}
 <div id="speed" align="center"  data-value="0.1">
-<h1> Songs and Ranks </h1>
+<h1 class="pageTitle"> Songs and Ranks </h1>
 <div>
   {% if abovedev %} <ul>
   <h3> Top Songs </h3>
   {% for song in abovedev %}
-  <li>Name: {{ song.song_name }} |      Danceability: {{ song.danceability }} |     </li>
+  <li>Name: {{ song.song_name }} |      Danceability: {{ song.score }} |     </li>
   {% endfor %} </ul>
   {% endif %}
 
   {% if belowdev %} <ul>
   <h3> Bottom Songs </h3>
   {% for song in belowdev %}
-  <li>Name: {{ song.song_name }} |      Danceability: {{ song.danceability }} |     </li>
+  <li>Name: {{ song.song_name }} |      Danceability: {{ song.score }} |     </li>
   {% endfor %} </ul>
   {% endif %}
 
@@ -28,7 +28,7 @@
 <h3> Full Breakdown </h3>
 <h6> Mean = {{ mean }} | Standard Deviation = {{ deviation }} </h6>
 {% for song in songs %}
-<li>Name: {{ song.song_name }} | Danceability: {{ song.danceability }} |     </li>
+<li>Name: {{ song.song_name }} | Danceability: {{ song.score }} |     </li>
 {% endfor %} </ul>
 
 

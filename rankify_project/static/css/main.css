@@ -97,3 +97,19 @@ nav a:hover, .rounded-button:hover {
   padding: 30px;
   margin-top: 85px;
 }
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+footer {
+  margin-bottom: 30px;
+}
+
+.loading {
+  display: none;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 5px;
+}
