@@ -10,7 +10,8 @@ $(document).ready(function(){
   });
 
   window.onpopstate = function(e) {
-    fetchPage(window.location.pathname);
+    fetchPage(location.pathname);
+    // history.pushState('', '', location.pathname);
   };
 
   $("#add_playlist_form").submit(function(event) {
@@ -43,7 +44,7 @@ function fetchPage(targetUrl) {
   });
 }
 
-function pageLoaded (data, url) {//Need to change the page title
+function pageLoaded (data, url) {
     $(".intro-text").html(data);
     $("title").text($(".pageTitle").text());
 }

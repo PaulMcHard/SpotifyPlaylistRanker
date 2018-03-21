@@ -12,28 +12,82 @@
 <div>
   {% if abovedev %} <ul>
   <h3> Top Songs </h3>
-  {% for song in abovedev %}
-  <li>Name: {{ song.song_name }} |      Danceability: {{ song.score }} |     </li>
-  {% endfor %} </ul>
-  {% endif %}
+  <table class="th">
+     <col width="360px" />
 
+<tr>
+<th>Name</th>
+<th>Danceability</th>
+
+</tr>
+{% for song in abovedev %}
+<tr>
+<td>{{ song.song_name }}</td>
+<td>{{ song.score }}</td>
+
+
+</tr>
+{% endfor %}
+</table>
+  {% endif %}
+</div>
+
+
+<div>
   {% if belowdev %} <ul>
   <h3> Bottom Songs </h3>
-  {% for song in belowdev %}
-  <li>Name: {{ song.song_name }} |      Danceability: {{ song.score }} |     </li>
-  {% endfor %} </ul>
+  <table class="th">
+      <col width="360px" />
+      <tr>
+      <th>Name</th>
+      <th>Danceability</th>
+
+      </tr>
+
+{% for song in belowdev %}
+<tr>
+<td>{{ song.song_name }}</td>
+<td>{{ song.score }}</td>
+
+
+</tr>
+{% endfor %}
+</table>
   {% endif %}
+</div>
 
-{% if songs %} <ul>
-<h3> Full Breakdown </h3>
-<h6> Mean = {{ mean }} | Standard Deviation = {{ deviation }} </h6>
+<div>
+  {% if songs %} <ul>
+  <h3> All Songs </h3>
+  <table class="th">
+      <col width="360px" />
+      <tr>
+      <th>Name</th>
+      <th>Danceability</th>
+
+      </tr>
+
 {% for song in songs %}
-<li>Name: {{ song.song_name }} | Danceability: {{ song.score }} |     </li>
-{% endfor %} </ul>
+<tr>
+<td>{{ song.song_name }}</td>
+<td>{{ song.score }}</td>
 
 
-<ul>
-{% else %}
-<strong>No songs! :(</strong>
-{% endif %} </div>
+</tr>
+{% endfor %}
+</table>
+  {% endif %}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}

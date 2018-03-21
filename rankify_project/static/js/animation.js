@@ -68,7 +68,7 @@ function animate() {
         mesh.scale.z += (b / 1000);
         mesh.scale.y += (b / 1000);
         mesh.scale.x += (b / 1000);
-        console.log(mesh.scale.x, mesh.scale.y);
+        // console.log(mesh.scale.x, mesh.scale.y);
         i++;
     } else if (i < 400) {
         mesh.scale.z -= (b / 1000);
