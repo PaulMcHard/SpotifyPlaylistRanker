@@ -64,18 +64,24 @@ function animate() {
     mesh.rotation.x += velX;
     mesh.rotation.y += velY;
 
+	//This allows the cube to change size as the animation loop 
+	//progresses. 
     if (i < 100) {
         mesh.scale.z += (b / 1000);
         mesh.scale.y += (b / 1000);
         mesh.scale.x += (b / 1000);
-        console.log(mesh.scale.x, mesh.scale.y);
+        //This prints to the console the current scale
+		//handy to let you know the anim loop is working 
+		//even if you can't see the animation. 
+		console.log(mesh.scale.x, mesh.scale.y);
         i++;
     } else if (i < 400) {
         mesh.scale.z -= (b / 1000);
         mesh.scale.y -= (b / 1000);
         mesh.scale.x -= (b / 1000);
     }
-    if (mesh.scale.y < 0.01) {
+	//This sets the minimum size of the cube. 
+    if (mesh.scale.y < 0.1) {
         i = 0;
     }
 
