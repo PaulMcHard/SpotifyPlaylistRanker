@@ -99,6 +99,7 @@ function init() {
     mesh.scale.z = 0.01;
 	//Sphere Mesh
 	sph = new THREE.Mesh( sphGeo, sphMat );
+  sph.position.set(0,100,0);
 	//Plane Mesh
 	pln = new THREE.Mesh( plnGeo, plnMat);
 	pln.position.set(0, 0, 0);
