@@ -60,7 +60,7 @@ nav a:hover, .rounded-button:hover {
   margin: 0;
   transition: padding .2s, margin .2s;
 }
-.logohome, .rounded-button {
+.logohome {
   display: inline-block;
   padding: 10px 20px;
   border-radius: 20px;
