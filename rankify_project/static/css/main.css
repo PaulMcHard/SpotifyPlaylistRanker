@@ -73,32 +73,11 @@ nav a:hover, .rounded-button:hover {
   padding: 13px 26px;
   margin: 0;
   transition: padding .2s, margin .2s;
-
-}
-b, .rounded-button{
-  display: inline-block;
-  padding: 10px 20px;
-  border-radius: 20px;
-  background: : #191414;
-  color: #ffffff !important;
-  text-decoration: none !important;
-  margin-right: 20px;
-  margin-top: 20px;
-  top: 0;
-  z-index: 10;
-  position:fixed;
-  transition: padding .2s, margin .2s;
-}
-b:hover, .rounded-button:hover {
-  padding: 13px 26px;
-  margin: 10;
-  transition: padding .2s, margin .2s;
 }
 .button-row {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-
 #cover {
   position: absolute;
   top: 0;
