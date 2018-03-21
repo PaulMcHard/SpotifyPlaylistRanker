@@ -3,12 +3,11 @@
 {% load staticfiles %}
 
 {% block title_block %}
-  Home
+  Home - Rankify: How Danceable Are Your Spotify Playlists?
 {% endblock %}
 
 
 {% block body_block %}
-<h1 class="pageTitle">Rankify Home</h1>
     {% if playlist_added %}
     <div id="speed" align="center"  data-value="{{ avg_danceability }}"></div>
     {% else %}

@@ -14,8 +14,9 @@ $(document).ready(function(){
     // history.pushState('', '', location.pathname);
   };
 
-  $("#add_playlist_form").submit(function(event) {
-    $(".loading").css("display", "inherit");
+  $("input [type=submit]").click(function() {
+    alert('hey');
+    $(".loading").css("display", "inline");
   });
 
   $(".ajaxLink").click(function(event) {
@@ -27,10 +28,10 @@ $(document).ready(function(){
     }
     fetchPage(targetUrl);
   });
-
 });
 
 function fetchPage(targetUrl) {
+  $(".loading").css("display", "none");
   $.ajax({
     type: "GET",
     url: targetUrl,

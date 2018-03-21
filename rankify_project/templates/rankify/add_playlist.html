@@ -3,11 +3,13 @@
 {% load staticfiles %}
 
 {% block title_block %}
-  Add Playlist
+  Add Playlists - Rankify: How Danceable Are Your Spotify Playlists?
 {% endblock %}
 
 {% block body_block %}
-<h1 class="pageTitle">Choose a Playlist</h1> <div>
+<div id="speed" align="center"  data-value="0.1"></div>
+
+<h1>Choose a Playlist</h1> <div></div>
 <form id="add_playlist_form" method="post" action="/rankify/add_playlist/">
     {% csrf_token %}
 {% for hidden in form.hidden_fields %}
