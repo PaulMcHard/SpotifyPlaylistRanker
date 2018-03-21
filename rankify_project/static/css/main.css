@@ -41,8 +41,8 @@ a {
   color: #000000;
   z-index: 5;
   opacity: .8;
-  margin-left: 250px;
-  margin-right: 250px;
+  margin-left: 200px;
+  margin-right: 200px;
   padding-top: 20px;
   margin-top: 500px;
   padding-bottom: 20px;
@@ -98,18 +98,15 @@ nav a:hover, .rounded-button:hover {
   margin-top: 85px;
 }
 
-ul {
-  list-style-type: none;
-  padding-left: 0;
+
+table {
+    width: 90%;
+    text-align: left;
+    border-spacing: 5px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-footer {
-  margin-bottom: 30px;
-}
-
-.loading {
-  display: none;
-  font-weight: bold;
-  font-size: 20px;
-  padding: 5px;
+th {
+    height: 50px;
 }

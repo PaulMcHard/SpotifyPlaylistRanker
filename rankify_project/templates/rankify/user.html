@@ -7,29 +7,43 @@
 {% endblock %}
 
 {% block body_block %}
-<h1 class="pageTitle"> Rankified Playlists </h1>
-
-
-
-<div id="speed" align="center"  data-value="0.1">
-
-<div>
+<h1 class="pageTitle"> Your Playlists
     {% if image_url == 'no picture set!!' %}
 
     <img src="{% static "img/default_avatar.jpg" %}" alt="none" width="100" id="avatar"/>
     {% else %}
     <img src="{{ image_url }}" alt="none" width="100" id="avatar"/>
     {% endif %}
-{% if playlists %} <ul>
-<<<<<<< HEAD
-{% for playlist in playlists %} <li>Name: {{ playlist.name }}  |   Danceability: {{ playlist.avg_danceability }} | <a href="/rankify/playlist/{{ playlist.slug }}">breakdown</a> <a href="/rankify/remove/{{ playlist.slug }}">remove playlist</a>  </li>
-=======
-{% for playlist in playlists %}
-<li>Name: {{ playlist.name }}  |   Danceability: {{ playlist.avg_danceability }} | <a href="/rankify/playlist/{{ playlist.slug }}">breakdown</a> </li>
->>>>>>> d6aa3500f3a869c3310b12f5bc1f7071e6e29aec
+ </h1>
 
-{% endfor %} </ul>
+
+
+<div id="speed" align="center"  data-value="0.1">
+
+<div>
+
+
+
+    {% if playlists %}
+        <table class="th">
+    <tr>
+      <th>Name</th>
+      <th>Danceability</th>
+
+    </tr>
+    {% for playlist in playlists %}
+    <tr>
+      <td><a href="/rankify/playlist/{{ playlist.slug }}">{{ playlist.name }}</a></td>
+      <td>{{ playlist.avg_danceability }}</td>
+
+
+    </tr>
+    {% endfor %}
+    </table>
+
+
 {% else %}
 <strong>You haven't Rankified any playlists!</strong>
-{% endif %} </div>
+{% endif %}
+</div>
 {% endblock %}

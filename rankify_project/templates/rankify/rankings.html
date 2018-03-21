@@ -9,14 +9,34 @@
 
 {% block body_block %}
 <h1 class="pageTitle"> World Rankings </h1>
+
+<div id="speed" align="center"  data-value="0.1"></div>
 <div>
-<div id="speed" align="center"  data-value="0.1">
-{% if playlists %} <ul>
-{% for playlist in playlists %} <li>Name: {{ playlist.name }} |      Danceability: {{ playlist.avg_danceability }} | Creator = <a href="/rankify/user/{{ playlist.creator }}">{{ playlist.creator_display_name }}</a> |    </li>
-{% endfor %} </ul>
-for each playlist you can also access a thumbnail image using playlist.playlist_image_url
-<ul>
+
+
+
+
+
+
+{% if playlists %}
+    <table class="th">
+<tr>
+  <th>Name</th>
+  <th>Danceability</th>
+  <th>Creator</th>
+</tr>
+{% for playlist in playlists %}
+<tr>
+  <td>{{ playlist.name }}</td>
+  <td>{{ playlist.avg_danceability }}</td>
+
+  <td><a href="/rankify/user/{{ playlist.creator }}">{{ playlist.creator_display_name }}</a></td>
+</tr>
+{% endfor %}
+</table>
 {% else %}
 <strong>No one has ever Rankfied a playlist! :(</strong>
-{% endif %} </div>
+{% endif %}
+
+</div>
 {% endblock %}

@@ -61,8 +61,13 @@ def index(request):
 
 def rankings(request):
     playlist_list = Playlist.objects.order_by('-avg_danceability')[:10]
+
     session = getSession(request)
     session['playlists'] = playlist_list
+    for playlist in session['playlists']:
+        playlist.avg_danceability = round(playlist.avg_danceability, 2)
+
+
     return render(request, 'rankify/rankings.html', session)
 
 
@@ -75,7 +80,15 @@ def user(request):
         playlist_list = Playlist.objects.filter(creator = request.user)
         playlist_list = playlist_list.order_by('-avg_danceability')[:5]
         image = get_profile_picture(request.user.username)
+
+
+
+
+
+
         context_dict['playlists'] = playlist_list
+        for playlist in context_dict['playlists']:
+            playlist.avg_danceability = round(playlist.avg_danceability, 2)
         context_dict['user'] = user
         context_dict['username'] = username
         if image == 'no picture set!!':
@@ -190,7 +203,7 @@ def add_playlist(request):
                     #add every song in the list to the playlist entry in the db
                     for song in songs:
                         added_playlist.songs.add(song)
-                        score = song.danceability * 100
+                        score = song.danceability
                         score = round(score, 2)
                         total_danceability += score
                         track_counter += 1
@@ -205,7 +218,7 @@ def add_playlist(request):
                         avg_danceability = round(avg_danceability, 2)
                     added_playlist.avg_danceability = avg_danceability
                     added_playlist.total_danceability = total_danceability
-                    avg_danceability = round(  avg_danceability, 2 )
+
 
 
                     added_playlist.creator = request.user
@@ -222,6 +235,7 @@ def add_playlist(request):
                     playlist_added = True
 
             session['avg_danceability'] = avg_danceability
+
             session['total_danceability'] = int(total_danceability)
             session['playlist_added'] = playlist_added
             session['playlist_name'] = added_playlist.name
@@ -291,6 +305,7 @@ def show_playlist(request, playlist_slug):
     context_dict['mean'] = mean
     context_dict['abovedev'] = abovedev
     context_dict['belowdev'] = belowdev
+    context_dict['avg_danceability'] = playlist.avg_danceability
 
     return render(request, 'rankify/playlist.html', context_dict)
 
