@@ -1,7 +1,8 @@
 body {
   /*background-color: #191414;*/
   background-color: #000000;
-  overflow: scroll;  //Change this to scroll or auto
+  overflow-y: scroll;
+  overflow-x:hidden;
 }
 a {
   color: #1DB954;
