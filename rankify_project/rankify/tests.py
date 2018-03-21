@@ -1,9 +1,7 @@
 from django.test import TestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-
 from django.urls import reverse
 import os
-from rankify.views import index
 
 class HomePageTest(TestCase):
 
@@ -14,3 +12,5 @@ class HomePageTest(TestCase):
     def rankings_load(self):
         response = self.client.get(reverse('rankings'))
         self.assertEqual(response.status_code, 200)
+
+    
