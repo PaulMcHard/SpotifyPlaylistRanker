@@ -41,7 +41,7 @@ SECRET_KEY = 'x**-m6e9qb%1m$t@l7h6o(q@@z#!6@q)(1@kig)_ddj6l3w32w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://rankify.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['rankify.pythonanywhere.com', '127.0.0.1']
 
 # Application definition
 
