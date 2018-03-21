@@ -20,6 +20,7 @@ from rankify.models import Playlist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.shortcuts import render
 
 # loads of variables to allow the user to authorise this app with their spotify
 #  Client Keys
