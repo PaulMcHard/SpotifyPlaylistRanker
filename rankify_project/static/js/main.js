@@ -45,6 +45,6 @@ function fetchPage(targetUrl) {
 }
 
 function pageLoaded (data, url) {
-    $(".intro-text").html(data);
+    $(".main-text").html(data);
     $("title").text($(".pageTitle").text());
 }
