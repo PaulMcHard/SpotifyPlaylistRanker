@@ -20,7 +20,7 @@
       <div id="WebGLCanvas" onload="speed()"></div>
       <div id="content">
          <nav id="nav">
-            <a href="{% url 'index' %}" class="logohome"><img src="{% static "img/rankify_logo.png" %}"
+            <a href="{% url 'index' %}" class="logohome ajaxLink"><img src="{% static "img/rankify_logo.png" %}"
               alt="RankifyLogo" width="80" id="rankifylogo"/></a>
             {% if user.is_authenticated %}
             <a href="/rankify/logout/" class="rightNav">Logged in as {{ display_name }}. Logout?</a>{% else %}
