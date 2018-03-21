@@ -191,7 +191,7 @@ def add_playlist(request):
             for playlist in playlists['items']:
                 if playlist['name'] == added_playlist.name:
 
-
+                    total_score = 0
                     total_danceability = 0
                     track_counter = 0
 
@@ -203,23 +203,25 @@ def add_playlist(request):
                     #add every song in the list to the playlist entry in the db
                     for song in songs:
                         added_playlist.songs.add(song)
-                        score = song.danceability
+                        score = ( song.danceability * 100)
                         score = round(score, 2)
-                        total_danceability += score
+                        total_danceability += song.danceability
+                        total_score += score
                         track_counter += 1
 
                     # add the playlists uri to the db
                     added_playlist.spotify_playlist_uri = playlist['uri']
                     #add the playlists danceability!
+                    avg_score = 0
                     avg_danceability = 0
 
                     if track_counter > 0:
                         avg_danceability = total_danceability / track_counter
                         avg_danceability = round(avg_danceability, 2)
+                        avg_score = total_score / track_counter
+                        avg_score = round(avg_score, 2)
                     added_playlist.avg_danceability = avg_danceability
                     added_playlist.total_danceability = total_danceability
-
-
 
                     added_playlist.creator = request.user
                     added_playlist.playlist_image_url = get_profile_picture(request.user.username)
@@ -235,8 +237,9 @@ def add_playlist(request):
                     playlist_added = True
 
             session['avg_danceability'] = avg_danceability
-
             session['total_danceability'] = int(total_danceability)
+            session['avg_score'] = avg_score
+            session['total_score'] = int(total_score)
             session['playlist_added'] = playlist_added
             session['playlist_name'] = added_playlist.name
             session['number'] = 4
@@ -264,13 +267,14 @@ def show_playlist(request, playlist_slug):
     context_dict['songs'] = songs
 
     #get av danceability and set variance and counter.
-    mean = playlist.avg_danceability
+    mean = (playlist.avg_danceability * 100)
+
     variance = 0
     count = 0
 
     #for each song get variance from mean and use that to calculate standard Deviation
     for song in songs:
-        score = (song.danceability * 100)
+        score = ( song.danceability * 100 )
         score = round(score, 2)
         thisvar = score - mean
         thisvar = thisvar ** 2

@@ -60,15 +60,16 @@ nav a:hover, .rounded-button:hover {
   margin: 0;
   transition: padding .2s, margin .2s;
 }
-nav b, .rounded-button {
+.logohome, .rounded-button {
   display: inline-block;
   padding: 10px 20px;
   border-radius: 20px;
+  background: #ffffff;
   color: #ffffff !important;
   margin: 3px 6px;
   transition: padding .2s, margin .2s;
 }
-nav b:hover, .rounded-button:hover {
+.logohome:hover, .rounded-button:hover {
   padding: 13px 26px;
   margin: 0;
   transition: padding .2s, margin .2s;
