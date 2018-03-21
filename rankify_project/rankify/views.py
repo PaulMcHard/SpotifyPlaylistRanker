@@ -182,7 +182,9 @@ def add_playlist(request):
                     #add every song in the list to the playlist entry in the db
                     for song in songs:
                         added_playlist.songs.add(song)
-                        total_danceability += song.danceability
+                        score = song.danceability * 100
+                        score = round(score, 2)
+                        total_danceability += score
                         track_counter += 1
 
                     # add the playlists uri to the db
@@ -192,7 +194,9 @@ def add_playlist(request):
 
                     if track_counter > 0:
                         avg_danceability = total_danceability / track_counter
+                        avg_danceability = round(avg_danceability, 2)
                     added_playlist.avg_danceability = avg_danceability
+                    added_playlist.total_danceability = total_danceability
                     avg_danceability = round(  avg_danceability, 2 )
 
 
@@ -210,6 +214,7 @@ def add_playlist(request):
                     playlist_added = True
 
             session['avg_danceability'] = avg_danceability
+            session['total_danceability'] = int(total_danceability)
             session['playlist_added'] = playlist_added
             session['playlist_name'] = added_playlist.name
             return render(request, 'rankify/home.html', session )
@@ -242,10 +247,13 @@ def show_playlist(request, playlist_slug):
 
     #for each song get variance from mean and use that to calculate standard Deviation
     for song in songs:
-        thisvar = song.danceability - mean
+        score = (song.danceability * 100)
+        score = round(score, 2)
+        thisvar = score - mean
         thisvar = thisvar ** 2
         variance += thisvar
         count += 1
+        song.score = score
 
     if count > 0:
         meanvar = variance/count
@@ -260,15 +268,15 @@ def show_playlist(request, playlist_slug):
     belowdev = []
 
     for song in songs:
-        if( song.danceability > ( mean + stdDev )):
+        if( ( song.score ) > ( mean + stdDev )):
             abovedev.append(song)
-        elif (song.danceability < ( mean - stdDev )):
+        elif ( ( song.score ) < ( mean - stdDev )):
             belowdev.append(song)
 
     #abovedev = sort(key = lambda danceability: song.danceability )
     #belowdev.sort(key = lambda danceability: song.danceability )
 
-    abovedev = sorted(abovedev, key = lambda danceability: song.danceability)
+    abovedev = sorted(abovedev, key = lambda danceability:  song.score )
 
     context_dict['deviation'] =stdDev
     context_dict['mean'] = mean
@@ -276,3 +284,14 @@ def show_playlist(request, playlist_slug):
     context_dict['belowdev'] = belowdev
 
     return render(request, 'rankify/playlist.html', context_dict)
+
+def remove_playlist(request, playlist_slug):
+    context_dict = getSession(request)
+
+    removeList = Playlist.objects.get(slug=playlist_slug)
+    playlists = Playlist.objects.filter(creator = request.user)
+    for playlist in playlists:
+        if playlist.SlugField == removeList:
+            playlists.remove(playlist)
+
+    return render(request, 'rankify/user.html', context_dict)

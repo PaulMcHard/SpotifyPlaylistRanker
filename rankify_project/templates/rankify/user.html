@@ -11,7 +11,7 @@
 <div> your profile picture is at {{ image_url }}</div>
 <div>
 {% if playlists %} <ul>
-{% for playlist in playlists %} <li>Name: {{ playlist.name }}  |   Danceability: {{ playlist.avg_danceability }} | <a href="/rankify/playlist/{{ playlist.slug }}">breakdown</a> </li>
+{% for playlist in playlists %} <li>Name: {{ playlist.name }}  |   Danceability: {{ playlist.avg_danceability }} | <a href="/rankify/playlist/{{ playlist.slug }}">breakdown</a> <a href="/rankify/remove/{{ playlist.slug }}">remove playlist</a>  </li>
 
 {% endfor %} </ul>
 {% else %}
