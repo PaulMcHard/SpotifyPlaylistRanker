@@ -1,26 +1,18 @@
 {% extends ajaxProofTemplate %}
-
 {% load staticfiles %}
 
 {% block title_block %}
-  Home - Rankify: How Danceable Are Your Spotify Playlists?
+Home - Rankify: How Danceable Are Your Spotify Playlists?
 {% endblock %}
 
-
 {% block body_block %}
-    {% if playlist_added %}
-    <div id="speed" align="center"  data-value="{{ avg_danceability }}"></div>
-    {% else %}
-    <div id="speed" align="center"  data-value="0.1"></div>
-    {% endif %}
-
-
-
-
 
 {% if playlist_added %}
+<div id="speed" align="center"  data-value="{{ avg_danceability }}"></div>
 {{ playlist_name }} scored {{ total_score }} points! Average danceability in playlist was {{ avg_score }}
 {% else %}
+<div id="speed" align="center"  data-value="0.1"></div>
 Can you create the worlds most danceable playlist?
 {% endif %}
+
 {% endblock %}

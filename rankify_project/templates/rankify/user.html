@@ -1,49 +1,41 @@
 {% extends ajaxProofTemplate %}
-
 {% load staticfiles %}
 
 {% block title_block %}
-  Your Playlists - Rankify: How Danceable Are Your Spotify Playlists?
+Your Playlists - Rankify: How Danceable Are Your Spotify Playlists?
 {% endblock %}
 
 {% block body_block %}
-<h1>Your Playlists</h1>
-    {% if image_url == 'no picture set!!' %}
-
-    <img src="{% static "img/default_avatar.jpg" %}" alt="none" width="100" id="avatar"/>
-    {% else %}
-    <img src="{{ image_url }}" alt="none" width="100" id="avatar"/>
-    {% endif %}
-
-
-
 <div id="speed" align="center"  data-value="0.1"></div>
+<h1>Your Playlists</h1>
+
+{% if image_url == 'no picture set!!' %}
+<img src="{% static "img/default_avatar.jpg" %}" alt="none" width="100" id="avatar"/>
+{% else %}
+<img src="{{ image_url }}" alt="none" width="100" id="avatar"/>
+{% endif %}
 
 <div>
+   {% if playlists %}
+   <table class="th">
+      <col width="360px" />
+      <tr>
+         <th>Name</th>
+         <th>Danceability</th>
+      </tr>
 
+      {% for playlist in playlists %}
+      <tr>
+         <td><a href="/rankify/playlist/{{ playlist.slug }}">{{ playlist.name }}</a></td>
+         <td>{{ playlist.avg_danceability }}</td>
+      </tr>
+      {% endfor %}
+      
+   </table>
+   {% else %}
+   <strong>You haven't Rankified any playlists!</strong>
+   {% endif %}
 
-
-    {% if playlists %}
-        <table class="th">
-            <col width="360px" />
-    <tr>
-      <th>Name</th>
-      <th>Danceability</th>
-
-    </tr>
-    {% for playlist in playlists %}
-    <tr>
-      <td><a href="/rankify/playlist/{{ playlist.slug }}">{{ playlist.name }}</a></td>
-      <td>{{ playlist.avg_danceability }}</td>
-
-
-    </tr>
-    {% endfor %}
-    </table>
-
-
-{% else %}
-<strong>You haven't Rankified any playlists!</strong>
-{% endif %}
 </div>
+
 {% endblock %}

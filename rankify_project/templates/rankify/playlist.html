@@ -1,93 +1,79 @@
 {% extends ajaxProofTemplate %}
-
 {% load staticfiles %}
 
 {% block title_block %}
-  Songs and Rankings - Rankify: How Danceable Are Your Spotify Playlists?
+Songs and Rankings - Rankify: How Danceable Are Your Spotify Playlists?
 {% endblock %}
 
 {% block body_block %}
 <div id="speed" align="center"  data-value="{{ avg_danceability }}"></div>
 <h1> Songs and Ranks </h1>
 <div>
-  {% if abovedev %} <ul>
-  <h3> Top Songs </h3>
-  <table class="th">
-     <col width="360px" />
 
-<tr>
-<th>Name</th>
-<th>Danceability</th>
-
-</tr>
-{% for song in abovedev %}
-<tr>
-<td>{{ song.song_name }}</td>
-<td>{{ song.score }}</td>
-
-
-</tr>
-{% endfor %}
-</table>
-  {% endif %}
-</div>
-
-
-<div>
-  {% if belowdev %} <ul>
-  <h3> Bottom Songs </h3>
-  <table class="th">
+   {% if abovedev %}
+   <ul>
+   <h3> Top Songs </h3>
+   <table class="th">
       <col width="360px" />
       <tr>
-      <th>Name</th>
-      <th>Danceability</th>
-
+         <th>Name</th>
+         <th>Danceability</th>
       </tr>
 
-{% for song in belowdev %}
-<tr>
-<td>{{ song.song_name }}</td>
-<td>{{ song.score }}</td>
+      {% for song in abovedev %}
+      <tr>
+         <td>{{ song.song_name }}</td>
+         <td>{{ song.score }}</td>
+      </tr>
+      {% endfor %}
 
+   </table>
+   {% endif %}
 
-</tr>
-{% endfor %}
-</table>
-  {% endif %}
 </div>
-
 <div>
-  {% if songs %} <ul>
-  <h3> All Songs </h3>
-  <table class="th">
+
+   {% if belowdev %}
+   <ul>
+   <h3> Bottom Songs </h3>
+   <table class="th">
       <col width="360px" />
       <tr>
-      <th>Name</th>
-      <th>Danceability</th>
-
+         <th>Name</th>
+         <th>Danceability</th>
       </tr>
 
-{% for song in songs %}
-<tr>
-<td>{{ song.song_name }}</td>
-<td>{{ song.score }}</td>
+      {% for song in belowdev %}
+      <tr>
+         <td>{{ song.song_name }}</td>
+         <td>{{ song.score }}</td>
+      </tr>
+      {% endfor %}
 
+   </table>
+   {% endif %}
 
-</tr>
-{% endfor %}
-</table>
-  {% endif %}
 </div>
+<div>
 
+   {% if songs %}
+   <ul>
+   <h3> All Songs </h3>
+   <table class="th">
+      <col width="360px" />
+      <tr>
+         <th>Name</th>
+         <th>Danceability</th>
+      </tr>
+      {% for song in songs %}
+      <tr>
+         <td>{{ song.song_name }}</td>
+         <td>{{ song.score }}</td>
+      </tr>
+      {% endfor %}
 
-
-
-
-
-
-
-
-
-
-
+   </table>
+   {% endif %}
+   
+</div>
 {% endblock %}

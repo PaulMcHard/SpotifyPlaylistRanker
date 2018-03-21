@@ -1,42 +1,35 @@
-
 {% extends ajaxProofTemplate %}
-
 {% load staticfiles %}
 
 {% block title_block %}
-  World Rankings - Rankify: How Danceable Are Your Spotify Playlists?
+World Rankings - Rankify: How Danceable Are Your Spotify Playlists?
 {% endblock %}
 
 {% block body_block %}
 <h1> World Rankings </h1>
-
 <div id="speed" align="center"  data-value="0.1"></div>
 <div>
 
+   {% if playlists %}
+   <table class="th">
+      <tr>
+         <th>Name</th>
+         <th>Danceability</th>
+         <th>Creator</th>
+      </tr>
 
+      {% for playlist in playlists %}
+      <tr>
+         <td>{{ playlist.name }}</td>
+         <td>{{ playlist.avg_danceability }}</td>
+         <td><a href="/rankify/user/{{ playlist.creator }}">{{ playlist.creator_display_name }}</a></td>
+      </tr>
+      {% endfor %}
 
-
-
-
-{% if playlists %}
-    <table class="th">
-<tr>
-  <th>Name</th>
-  <th>Danceability</th>
-  <th>Creator</th>
-</tr>
-{% for playlist in playlists %}
-<tr>
-  <td>{{ playlist.name }}</td>
-  <td>{{ playlist.avg_danceability }}</td>
-
-  <td><a href="/rankify/user/{{ playlist.creator }}">{{ playlist.creator_display_name }}</a></td>
-</tr>
-{% endfor %}
-</table>
-{% else %}
-<strong>No one has ever Rankfied a playlist! :(</strong>
-{% endif %}
-
+   </table>
+   {% else %}
+   <strong>No one has ever Rankfied a playlist! :(</strong>
+   {% endif %}
+   
 </div>
 {% endblock %}

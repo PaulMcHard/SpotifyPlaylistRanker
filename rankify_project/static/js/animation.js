@@ -221,12 +221,7 @@ function animate() {
 		i = 0;
 	}
 
-
-
-
-
     renderer.render(scene, camera);
-
 }
 
 

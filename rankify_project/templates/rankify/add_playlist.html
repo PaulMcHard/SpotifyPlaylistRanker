@@ -1,27 +1,28 @@
 {% extends ajaxProofTemplate %}
-
 {% load staticfiles %}
 
 {% block title_block %}
-  Add Playlists - Rankify: How Danceable Are Your Spotify Playlists?
+Add Playlists - Rankify: How Danceable Are Your Spotify Playlists?
 {% endblock %}
 
 {% block body_block %}
 <div id="speed" align="center"  data-value="0.1"></div>
-
-<h1>Choose a Playlist</h1> <div></div>
+<h1>Choose a Playlist</h1>
+<div></div>
 <form id="add_playlist_form" method="post" action="/rankify/add_playlist/">
-    {% csrf_token %}
-{% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-                {% for field in form.visible_fields %}
-                    {{ field.errors }}
-                    {{ field.help_text }}
-                    {{ field }}
+   {% csrf_token %}
 
-{% endfor %}
-<input type="submit" name="submit" value="Upload" />
+   {% for hidden in form.hidden_fields %}
+   {{ hidden }}
+   {% endfor %}
 
-</form><div class="loading">Loading, please wait...</div>
+   {% for field in form.visible_fields %}
+   {{ field.errors }}
+   {{ field.help_text }}
+   {{ field }}
+   {% endfor %}
+   
+   <input type="submit" name="submit" value="Upload" />
+</form>
+<div class="loading">Loading, please wait...</div>
 {% endblock %}
