@@ -5,12 +5,10 @@ import os
 
 class HomePageTest(TestCase):
 
-    def index_load(self):
+    def test_index_load(self):
         response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
 
-    def rankings_load(self):
+    def test_rankings_load(self):
         response = self.client.get(reverse('rankings'))
         self.assertEqual(response.status_code, 200)
-
-    
